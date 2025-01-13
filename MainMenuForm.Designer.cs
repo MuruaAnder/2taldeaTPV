@@ -123,6 +123,7 @@ namespace _2taldea
             Name="MainMenuForm";
             Text="Main Menu";
             WindowState=FormWindowState.Maximized;
+            Load+=MainMenuForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();

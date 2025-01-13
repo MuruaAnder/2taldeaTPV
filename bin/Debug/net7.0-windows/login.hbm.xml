@@ -3,7 +3,6 @@
                    assembly="2taldea"
                    namespace="_2taldea">
 
-	<!-- more mapping info here -->
 	<class name="Langilea" table="langilea">
 		<id name="Id" column="id" type="int">
 			<generator class="identity" />

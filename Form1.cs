@@ -20,7 +20,7 @@ namespace _2taldea
             try
             {
                 var configuration = new Configuration();
-                configuration.Configure(); // Configuración de App.config
+                configuration.Configure(); // Carga la configuración desde App.config o hibernate.cfg.xml
                 sessionFactory = configuration.BuildSessionFactory();
             }
             catch (Exception ex)
@@ -45,8 +45,8 @@ namespace _2taldea
             {
                 MessageBox.Show("Ongi etorri!", "Bienvenido", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Abrir el formulario principal y pasar el nombre del usuario
-                MainMenuForm mainMenu = new MainMenuForm(userName); // Pasa el nombre del usuario aquí
+                // Abrir el formulario principal y pasar el nombre del usuario y la sesión
+                MainMenuForm mainMenu = new MainMenuForm(userName, sessionFactory);
                 this.Hide(); // Ocultar la ventana de inicio de sesión
                 mainMenu.ShowDialog(); // Mostrar el formulario principal de forma modal
                 this.Show(); // Volver al formulario de inicio de sesión después de cerrar el principal
@@ -98,3 +98,4 @@ namespace _2taldea
         }
     }
 }
+
