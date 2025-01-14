@@ -12,8 +12,8 @@ namespace _2taldea
         public ProduktuakForm(string nombreUsuario, ISessionFactory sessionFactory)
         {
             InitializeComponent();
-            this.nombreUsuario = nombreUsuario;
-            this.sessionFactory = sessionFactory;
+            this.nombreUsuario = nombreUsuario ?? throw new ArgumentNullException(nameof(nombreUsuario));
+            this.sessionFactory = sessionFactory ?? throw new ArgumentNullException(nameof(sessionFactory));
         }
 
         private void ProduktuakForm_Load(object sender, EventArgs e)
@@ -29,11 +29,7 @@ namespace _2taldea
                 using (var session = sessionFactory.OpenSession())
                 {
                     Console.WriteLine("Abriendo sesión de NHibernate...");
-
-                    // Obtener los productos usando HQL
                     var produktuak = session.CreateQuery("FROM Produktua").List<Produktua>();
-
-                    Console.WriteLine($"Productos encontrados: {produktuak.Count}");
 
                     if (produktuak.Count == 0)
                     {
@@ -41,20 +37,13 @@ namespace _2taldea
                         return;
                     }
 
-                    // Asignar los datos al DataGridView
-                    dataGridViewProduktuak.DataSource = produktuak;
-
-                    // Configurar las columnas del DataGridView
-                    ConfigurarDataGridView();
-
-                    Console.WriteLine($"Filas mostradas en DataGridView: {dataGridViewProduktuak.Rows.Count}");
+                    dataGridViewProduktuak.DataSource = produktuak; // Asignar productos al DataGridView
+                    ConfigurarDataGridView(); // Configurar las columnas del DataGridView
                 }
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
-                MessageBox.Show($"Errorea produktuak kargatzean: {ex.Message}",
-                                "Errorea", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar los productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Console.WriteLine($"Error: {ex.Message}");
                 Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             }
@@ -64,16 +53,15 @@ namespace _2taldea
         {
             try
             {
-                // Verificar si el DataGridView tiene columnas antes de configurarlas
                 if (dataGridViewProduktuak.Columns.Count == 0) return;
 
-                // Ocultar la columna "Id" si no se necesita
+                // Ocultar la columna "Id" si no es necesaria
                 if (dataGridViewProduktuak.Columns["Id"] != null)
                 {
                     dataGridViewProduktuak.Columns["Id"].Visible = false;
                 }
 
-                // Personalizar encabezados de columnas
+                // Personalizar encabezados
                 if (dataGridViewProduktuak.Columns["Stock"] != null)
                     dataGridViewProduktuak.Columns["Stock"].HeaderText = "Stock";
 
@@ -86,29 +74,81 @@ namespace _2taldea
                 if (dataGridViewProduktuak.Columns["Prezioa"] != null)
                     dataGridViewProduktuak.Columns["Prezioa"].HeaderText = "Precio";
 
-                // Ajustar el tamaño de las columnas
-                dataGridViewProduktuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-                Console.WriteLine("Configuración del DataGridView completada.");
+                dataGridViewProduktuak.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; // Ajustar el tamaño
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Errorea konfiguratzeko datuak: {ex.Message}",
-                                "Errorea", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Console.WriteLine($"Error configurando DataGridView: {ex.Message}");
+                MessageBox.Show($"Error configurando el DataGridView: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnAtzera_Click(object sender, EventArgs e)
         {
-            this.Close(); // Cerrar el formulario y regresar al menú principal
+            this.Close(); // Cerrar el formulario
         }
 
         private void btnFiltratu_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Filtratu botoia sakatu duzu.");
+            var filtratuForm = new ProduktuakFiltratu(FiltrarProduktuak);
+            filtratuForm.ShowDialog();
+        }
+
+        private void FiltrarProduktuak(string criterio)
+        {
+            try
+            {
+                using (var session = sessionFactory.OpenSession())
+                {
+                    string query = criterio == "Prezioa"
+                        ? "FROM Produktua ORDER BY Prezioa DESC"
+                        : "FROM Produktua ORDER BY Stock DESC";
+
+                    var produktuak = session.CreateQuery(query).List<Produktua>();
+                    dataGridViewProduktuak.DataSource = produktuak;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al filtrar los productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewProduktuak.SelectedRows.Count > 0)
+            {
+                var selectedRow = dataGridViewProduktuak.SelectedRows[0].DataBoundItem as Produktua;
+
+                if (selectedRow != null)
+                {
+                    var editForm = new ProduktuaEditForm(selectedRow, sessionFactory);
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        CargarProduktuak(); // Recargar los productos después de la edición
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Selecciona un producto válido.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selecciona un producto para editar.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var addForm = new ProduktuaAddForm(sessionFactory);
+            if (addForm.ShowDialog() == DialogResult.OK)
+            {
+                CargarProduktuak(); // Recargar los productos después de añadir uno nuevo
+            }
         }
     }
 }
+
+
 
 
