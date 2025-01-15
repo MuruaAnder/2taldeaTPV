@@ -10,12 +10,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Eskaera.hbm.xml" />
     <None Remove="login.hbm.xml" />
+    <None Remove="mahia.hbm.xml" />
+    <None Remove="platera.hbm.xml" />
     <None Remove="produktua.hbm.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Eskaera.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="login.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Mahia.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="platera.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="produktua.hbm.xml">

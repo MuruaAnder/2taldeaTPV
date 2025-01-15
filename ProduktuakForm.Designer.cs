@@ -132,7 +132,7 @@
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
             BackColor=Color.BurlyWood;
-            ClientSize=new Size(1369, 584);
+            ClientSize=new Size(1835, 584);
             Controls.Add(pictureBoxLogo);
             Controls.Add(dataGridViewProduktuak);
             Controls.Add(btnAdd);

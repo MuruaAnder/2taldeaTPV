@@ -32,8 +32,13 @@ namespace _2taldea
 
         private void btnKomandak_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Komandak atala ireki da.");
+            string nombreUsuario = "UsuarioEjemplo";  // Asigna el nombre del usuario
+            KomandakForm komandakForm = new KomandakForm(nombreUsuario, sessionFactory);
+            komandakForm.Show(); // Mostrar el formulario KomandakForm
         }
+
+
+
 
         private void btnEskaerak_Click(object sender, EventArgs e)
         {

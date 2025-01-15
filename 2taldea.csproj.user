@@ -7,7 +7,13 @@
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KomandakForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="MainMenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MesaDetallesForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="ProduktuaAddForm.cs">
@@ -20,6 +26,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="ProduktuakForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ResumenForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

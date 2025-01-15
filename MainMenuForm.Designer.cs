@@ -94,7 +94,7 @@ namespace _2taldea
             labelIzena.Name="labelIzena";
             labelIzena.Size=new Size(82, 32);
             labelIzena.TabIndex=4;
-            labelIzena.Text=" Izena";
+            labelIzena.Text="Izena";
             labelIzena.TextAlign=ContentAlignment.TopCenter;
             labelIzena.Click+=labelIzena_Click;
             // 
