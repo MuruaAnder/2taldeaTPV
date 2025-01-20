@@ -146,6 +146,11 @@ namespace _2taldea
                 CargarProduktuak(); // Recargar los productos después de añadir uno nuevo
             }
         }
+
+        private void pictureBoxLogo_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

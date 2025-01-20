@@ -126,6 +126,7 @@
             pictureBoxLogo.SizeMode=PictureBoxSizeMode.Zoom;
             pictureBoxLogo.TabIndex=10;
             pictureBoxLogo.TabStop=false;
+            pictureBoxLogo.Click+=pictureBoxLogo_Click;
             // 
             // ProduktuakForm
             // 

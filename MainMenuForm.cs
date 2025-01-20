@@ -32,7 +32,6 @@ namespace _2taldea
 
         private void btnKomandak_Click(object sender, EventArgs e)
         {
-            string nombreUsuario = "UsuarioEjemplo";  // Asigna el nombre del usuario
             KomandakForm komandakForm = new KomandakForm(nombreUsuario, sessionFactory);
             komandakForm.Show(); // Mostrar el formulario KomandakForm
         }
