@@ -21,11 +21,13 @@ namespace _2taldea
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenuForm));
             btnProduktuak=new Button();
             btnKomandak=new Button();
             btnEskaerak=new Button();
             btnLogout=new Button();
             labelIzena=new Label();
+            labelMenua=new Label();
             pictureBoxLogo=new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             SuspendLayout();
@@ -92,19 +94,31 @@ namespace _2taldea
             labelIzena.Font=new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             labelIzena.Location=new Point(1716, 50);
             labelIzena.Name="labelIzena";
-            labelIzena.Size=new Size(82, 32);
+            labelIzena.Size=new Size(75, 32);
             labelIzena.TabIndex=4;
             labelIzena.Text="Izena";
             labelIzena.TextAlign=ContentAlignment.TopCenter;
             labelIzena.Click+=labelIzena_Click;
             // 
+            // labelMenua
+            // 
+            labelMenua.AutoSize=true;
+            labelMenua.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            labelMenua.ForeColor=Color.LightSlateGray;
+            labelMenua.Location=new Point(894, 50);
+            labelMenua.Name="labelMenua";
+            labelMenua.Size=new Size(123, 45);
+            labelMenua.TabIndex=5;
+            labelMenua.Text="Menua";
+            // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Location=new Point(740, 94);
+            pictureBoxLogo.Image=(Image)resources.GetObject("pictureBoxLogo.Image");
+            pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
-            pictureBoxLogo.Size=new Size(175, 188);
+            pictureBoxLogo.Size=new Size(250, 200);
             pictureBoxLogo.SizeMode=PictureBoxSizeMode.Zoom;
-            pictureBoxLogo.TabIndex=5;
+            pictureBoxLogo.TabIndex=6;
             pictureBoxLogo.TabStop=false;
             // 
             // MainMenuForm
@@ -114,6 +128,7 @@ namespace _2taldea
             BackColor=Color.BurlyWood;
             ClientSize=new Size(1920, 1080);
             Controls.Add(pictureBoxLogo);
+            Controls.Add(labelMenua);
             Controls.Add(labelIzena);
             Controls.Add(btnLogout);
             Controls.Add(btnEskaerak);
@@ -136,9 +151,7 @@ namespace _2taldea
         private Button btnEskaerak;
         private Button btnLogout;
         private Label labelIzena;
+        private Label labelMenua;
         private PictureBox pictureBoxLogo;
     }
 }
-
-
-

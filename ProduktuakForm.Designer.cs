@@ -34,7 +34,7 @@
             // 
             labelIzena.AutoSize=true;
             labelIzena.Font=new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            labelIzena.Location=new Point(1600, 50);
+            labelIzena.Location=new Point(1600, 73);
             labelIzena.Name="labelIzena";
             labelIzena.Size=new Size(75, 32);
             labelIzena.TabIndex=4;
@@ -45,7 +45,7 @@
             labelProduktuak.AutoSize=true;
             labelProduktuak.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
             labelProduktuak.ForeColor=Color.LightSlateGray;
-            labelProduktuak.Location=new Point(800, 50);
+            labelProduktuak.Location=new Point(852, 50);
             labelProduktuak.Name="labelProduktuak";
             labelProduktuak.Size=new Size(196, 45);
             labelProduktuak.TabIndex=5;
@@ -67,7 +67,7 @@
             // 
             // btnFiltratu
             // 
-            btnFiltratu.BackColor=Color.SaddleBrown;
+            btnFiltratu.BackColor=Color.Blue;
             btnFiltratu.FlatStyle=FlatStyle.Flat;
             btnFiltratu.Font=new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnFiltratu.ForeColor=Color.White;
