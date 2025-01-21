@@ -34,7 +34,7 @@
             // 
             labelIzena.AutoSize=true;
             labelIzena.Font=new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            labelIzena.Location=new Point(1600, 73);
+            labelIzena.Location=new Point(1716, 50);
             labelIzena.Name="labelIzena";
             labelIzena.Size=new Size(75, 32);
             labelIzena.TabIndex=4;

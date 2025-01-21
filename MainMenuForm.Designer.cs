@@ -80,7 +80,7 @@ namespace _2taldea
             btnLogout.FlatStyle=FlatStyle.Flat;
             btnLogout.Font=new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             btnLogout.ForeColor=Color.White;
-            btnLogout.Location=new Point(1681, 972);
+            btnLogout.Location=new Point(1700, 900);
             btnLogout.Name="btnLogout";
             btnLogout.Size=new Size(131, 47);
             btnLogout.TabIndex=3;
