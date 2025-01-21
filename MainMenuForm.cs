@@ -41,8 +41,10 @@ namespace _2taldea
 
         private void btnEskaerak_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Eskaerak atala ireki da.");
+            EskaerakForm eskaerakForm = new EskaerakForm(nombreUsuario, sessionFactory);
+            eskaerakForm.Show();
         }
+
 
         private void btnLogout_Click(object sender, EventArgs e)
         {

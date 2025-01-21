@@ -4,6 +4,12 @@
     <Compile Update="AddProductoForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="EskaerakForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="EskaeraResumenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

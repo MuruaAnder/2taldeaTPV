@@ -64,3 +64,5 @@ C:\Info ez nub\2taldea\obj\Debug\net7.0-windows\_2taldea.MesaDetallesForm.resour
 C:\Info ez nub\2taldea\bin\Debug\net7.0-windows\Eskaera.hbm.xml
 C:\Info ez nub\2taldea\bin\Debug\net7.0-windows\platera.hbm.xml
 C:\Info ez nub\2taldea\obj\Debug\net7.0-windows\_2taldea.ResumenForm.resources
+C:\Info ez nub\2taldea\obj\Debug\net7.0-windows\_2taldea.EskaerakForm.resources
+C:\Info ez nub\2taldea\obj\Debug\net7.0-windows\_2taldea.EskaeraResumenForm.resources
