@@ -47,6 +47,22 @@
             "NHibernate": {
               "target": "Package",
               "version": "[5.5.2, )"
+            },
+            "Portable.BouncyCastle": {
+              "target": "Package",
+              "version": "[1.9.0, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "itext7.bouncy-castle-adapter": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "itext7.commons": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             }
           },
           "imports": [
