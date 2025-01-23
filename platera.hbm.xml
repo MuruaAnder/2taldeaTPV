@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="2taldea"
+                   namespace="_2taldea">
+
+	<class name="Platera" table="platera">
+		<id name="Id" column="id" type="int">
+			<generator class="identity" />
+		</id>
+		<property name="Izena" column="izena" type="string" />
+		<property name="Kategoria" column="kategoria" type="string" />
+		<property name="Kantitatea" column="kantitatea" type="int" />
+		<property name="Prezioa" column="prezioa" type="float" />
+	</class>
+
+
+</hibernate-mapping>

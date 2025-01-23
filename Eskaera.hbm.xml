@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="2taldea"
+                   namespace="_2taldea">
+	<class name="Eskaera" table="eskaera">
+		<id name="Id" column="id" type="int">
+			<generator class="identity" />
+		</id>
+		<property name="EskaeraZenb" column="eskaeraZenb" type="int" />
+		<property name="Izena" column="izena" type="string" />
+		<property name="Prezioa" column="prezioa" type="float" />
+		<property name="MesaId" column="mesa_id" type="int" />
+		<property name="Activo" column="activo" type="boolean" />
+
+	</class>
+</hibernate-mapping>
