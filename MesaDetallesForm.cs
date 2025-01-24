@@ -86,10 +86,6 @@ namespace _2taldea
                 }
             }
         }
-
-
-
-
         private void CargarPlatos(string kategoria, TabPage tabPage)
         {
             try
@@ -107,7 +103,7 @@ namespace _2taldea
                         ColumnCount = 1,
                         AutoScroll = true,
                         BackColor = Color.BurlyWood, // Fondo de la pestaña
-                        Padding = new Padding(0, 30, 0, 0) // Margen superior para mover todo hacia abajo
+                        Padding = new Padding(0, 100, 0, 0) // Aumentar margen superior para mover todo más abajo
                     };
 
                     // Panel para organizar los platos en filas y columnas
@@ -129,8 +125,8 @@ namespace _2taldea
                     {
                         Panel productoPanel = new Panel
                         {
-                            Width = 175,
-                            Height = 175,
+                            Width = 225, // Aumentar el tamaño del cuadro
+                            Height = 225, // Aumentar el tamaño del cuadro
                             Margin = new Padding(40, 20, 40, 20),
                             BorderStyle = BorderStyle.FixedSingle,
                             BackColor = Color.SaddleBrown
@@ -158,8 +154,8 @@ namespace _2taldea
                         Button btnPlus = new Button
                         {
                             Text = "+",
-                            Width = 40,
-                            Height = 30,
+                            Width = 50,
+                            Height = 40,
                             Location = new Point(10, 70)
                         };
                         productoPanel.Controls.Add(btnPlus);
@@ -167,18 +163,18 @@ namespace _2taldea
                         Button btnMinus = new Button
                         {
                             Text = "-",
-                            Width = 40,
-                            Height = 30,
-                            Location = new Point(60, 70)
+                            Width = 50,
+                            Height = 40,
+                            Location = new Point(70, 70)
                         };
                         productoPanel.Controls.Add(btnMinus);
 
                         Label lblCantidad = new Label
                         {
                             Text = "0",
-                            Width = 40,
+                            Width = 50,
                             TextAlign = ContentAlignment.MiddleCenter,
-                            Location = new Point(110, 70),
+                            Location = new Point(130, 70),
                             ForeColor = Color.White
                         };
                         productoPanel.Controls.Add(lblCantidad);
@@ -217,7 +213,7 @@ namespace _2taldea
                         Dock = DockStyle.Bottom,
                         FlowDirection = FlowDirection.LeftToRight,
                         AutoSize = true,
-                        Padding = new Padding(0, 20, 0, 20),
+                        Padding = new Padding(0, 40, 0, 20), // Aumentar margen superior para bajar los botones
                         BackColor = Color.BurlyWood,
                         Anchor = AnchorStyles.None
                     };
@@ -227,9 +223,9 @@ namespace _2taldea
                         Text = "Guardar Pedido",
                         BackColor = Color.Green,
                         ForeColor = Color.White,
-                        Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                        Width = 150,
-                        Height = 40,
+                        Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                        Width = 200,
+                        Height = 50,
                         Margin = new Padding(20, 0, 20, 0)
                     };
                     btnGuardar.Click += BtnGuardar_Click;
@@ -239,9 +235,9 @@ namespace _2taldea
                         Text = "Ver Resumen",
                         BackColor = Color.Blue,
                         ForeColor = Color.White,
-                        Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                        Width = 150,
-                        Height = 40,
+                        Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                        Width = 200,
+                        Height = 50,
                         Margin = new Padding(20, 0, 20, 0)
                     };
                     btnResumen.Click += BtnResumen_Click;
@@ -251,14 +247,26 @@ namespace _2taldea
                         Text = "Desactivar Pedidos",
                         BackColor = Color.Red,
                         ForeColor = Color.White,
-                        Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                        Width = 150,
-                        Height = 40,
+                        Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                        Width = 200,
+                        Height = 50,
                         Margin = new Padding(20, 0, 20, 0)
                     };
                     btnBorrar.Click += BtnBorrar_Click;
 
-                    botonesPanel.Controls.AddRange(new Control[] { btnGuardar, btnResumen, btnBorrar });
+                    Button btnAtzera = new Button
+                    {
+                        Text = "Atzera",
+                        BackColor = Color.Gray,
+                        ForeColor = Color.White,
+                        Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                        Width = 200,
+                        Height = 50,
+                        Margin = new Padding(20, 0, 20, 0)
+                    };
+                    btnAtzera.Click += (s, e) => { this.Close(); };
+
+                    botonesPanel.Controls.AddRange(new Control[] { btnGuardar, btnResumen, btnBorrar, btnAtzera });
 
                     mainPanel.Controls.Add(platosPanel);
                     mainPanel.Controls.Add(botonesPanel);
@@ -411,21 +419,6 @@ namespace _2taldea
             {
                 MessageBox.Show($"Error al mostrar el resumen: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void bebidasTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void primerPlatoTab_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void segundoPlatoTab_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

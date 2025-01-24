@@ -61,7 +61,6 @@
             bebidasTab.Size=new Size(1016, 740);
             bebidasTab.TabIndex=0;
             bebidasTab.Text="Edaria";
-            bebidasTab.Click+=bebidasTab_Click;
             // 
             // primerPlatoTab
             // 
@@ -71,7 +70,6 @@
             primerPlatoTab.Size=new Size(1016, 740);
             primerPlatoTab.TabIndex=1;
             primerPlatoTab.Text="Lehenengo platera";
-            primerPlatoTab.Click+=primerPlatoTab_Click;
             // 
             // segundoPlatoTab
             // 
@@ -81,7 +79,6 @@
             segundoPlatoTab.Size=new Size(1016, 740);
             segundoPlatoTab.TabIndex=2;
             segundoPlatoTab.Text="Bigarren platera";
-            segundoPlatoTab.Click+=segundoPlatoTab_Click;
             // 
             // MesaDetallesForm
             // 
@@ -97,6 +94,8 @@
             tabControl.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
+            this.WindowState = FormWindowState.Maximized;
+
         }
     }
 }
