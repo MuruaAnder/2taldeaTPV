@@ -27,8 +27,13 @@ namespace _2taldea
 
             // Actualizamos el texto del Label con el número de mesa
             this.mesaLabel.Text = $" {mesaId}. Mahaia";
-        }
 
+            // Agregar el evento SelectedIndexChanged al TabControl
+            tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
+
+            // Cargar los datos en las pestañas correctas al iniciar
+            CargarPlatos("Edaria", tabControl.TabPages[0]);
+        }
 
         private void MesaDetallesForm_Load(object sender, EventArgs e)
         {
@@ -40,7 +45,7 @@ namespace _2taldea
             this.Controls.Add(tabControl);
 
             // Crear pestañas
-            TabPage bebidasTab = new TabPage("Edariak");
+            TabPage bebidasTab = new TabPage("Edaria");
             TabPage primerPlatoTab = new TabPage("Lehenengo platera");
             TabPage segundoPlatoTab = new TabPage("Bigarren platera");
 
@@ -58,15 +63,32 @@ namespace _2taldea
             };
             this.Controls.Add(mesaLabel);
 
-            // Cargar los datos
-            CargarPlatos("Edaria", bebidasTab);
-            CargarPlatos("Lehenengo platera", primerPlatoTab);
-            CargarPlatos("Bigarren platera", segundoPlatoTab);
+            // Asegurarnos de cargar los productos de la primera pestaña
+            CargarPlatos("Edaria", bebidasTab); // Se carga de inmediato
+        }
 
-            // Cargar los pedidos anteriores
-            CargarPedidosGuardados();
-        
-    }
+        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabControl tabControl = sender as TabControl;
+            if (tabControl != null)
+            {
+                TabPage selectedTab = tabControl.SelectedTab;
+                string selectedCategory = selectedTab.Text;
+
+                // Evitar cargar los productos más de una vez
+                if (selectedTab.Controls.Count == 0)
+                {
+                    // Usamos BeginInvoke para asegurarnos de que la carga de los platos se realice correctamente después del cambio de pestaña
+                    selectedTab.BeginInvoke((Action)(() =>
+                    {
+                        CargarPlatos(selectedCategory, selectedTab);
+                    }));
+                }
+            }
+        }
+
+
+
 
         private void CargarPlatos(string kategoria, TabPage tabPage)
         {
@@ -78,134 +100,124 @@ namespace _2taldea
                         .Where(p => p.Kategoria == kategoria)
                         .List();
 
-                        // Panel principal con diseño vertical
-                        TableLayoutPanel mainPanel = new TableLayoutPanel
+                    // Panel principal con diseño vertical
+                    TableLayoutPanel mainPanel = new TableLayoutPanel
+                    {
+                        Dock = DockStyle.Fill,
+                        ColumnCount = 1,
+                        AutoScroll = true,
+                        BackColor = Color.BurlyWood, // Fondo de la pestaña
+                        Padding = new Padding(0, 30, 0, 0) // Margen superior para mover todo hacia abajo
+                    };
+
+                    // Panel para organizar los platos en filas y columnas
+                    TableLayoutPanel platosPanel = new TableLayoutPanel
+                    {
+                        Dock = DockStyle.Top,
+                        ColumnCount = 2,
+                        AutoSize = true,
+                        Margin = new Padding(0),
+                        Padding = new Padding(10),
+                        Anchor = AnchorStyles.None
+                    };
+
+                    for (int i = 0; i < platosPanel.ColumnCount; i++)
+                        platosPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+
+                    // Crear los paneles de los productos
+                    foreach (var plato in platos)
+                    {
+                        Panel productoPanel = new Panel
                         {
-                            Dock = DockStyle.Fill,
-                            ColumnCount = 1,
-                            RowCount = 2,
-                            AutoScroll = true,
-                            BackColor = Color.BurlyWood, // Fondo de la pestaña
-                            Padding = new Padding(0, 30, 0, 0) // Margen superior para mover todo hacia abajo
+                            Width = 175,
+                            Height = 175,
+                            Margin = new Padding(40, 20, 40, 20),
+                            BorderStyle = BorderStyle.FixedSingle,
+                            BackColor = Color.SaddleBrown
                         };
 
-                        // Panel para organizar los platos en 2 filas y 2 columnas, centrados
-                        TableLayoutPanel platosPanel = new TableLayoutPanel
+                        Label lblNombre = new Label
                         {
-                            Dock = DockStyle.Top,
-                            ColumnCount = 2,
-                            RowCount = 2,
+                            Text = plato.Izena,
                             AutoSize = true,
-                            AutoScroll = false,
-                            Margin = new Padding(0),
-                            Padding = new Padding(10),
-                            Anchor = AnchorStyles.None
+                            Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                            ForeColor = Color.White,
+                            Location = new Point(10, 10)
+                        };
+                        productoPanel.Controls.Add(lblNombre);
+
+                        Label lblPrecio = new Label
+                        {
+                            Text = $"Precio: {plato.Prezioa:C2}",
+                            AutoSize = true,
+                            ForeColor = Color.White,
+                            Location = new Point(10, 40)
+                        };
+                        productoPanel.Controls.Add(lblPrecio);
+
+                        Button btnPlus = new Button
+                        {
+                            Text = "+",
+                            Width = 40,
+                            Height = 30,
+                            Location = new Point(10, 70)
+                        };
+                        productoPanel.Controls.Add(btnPlus);
+
+                        Button btnMinus = new Button
+                        {
+                            Text = "-",
+                            Width = 40,
+                            Height = 30,
+                            Location = new Point(60, 70)
+                        };
+                        productoPanel.Controls.Add(btnMinus);
+
+                        Label lblCantidad = new Label
+                        {
+                            Text = "0",
+                            Width = 40,
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            Location = new Point(110, 70),
+                            ForeColor = Color.White
+                        };
+                        productoPanel.Controls.Add(lblCantidad);
+
+                        btnPlus.Click += (s, e) =>
+                        {
+                            int cantidad = int.Parse(lblCantidad.Text);
+                            cantidad++;
+                            lblCantidad.Text = cantidad.ToString();
+
+                            if (!resumen.ContainsKey(plato.Izena))
+                                resumen[plato.Izena] = (0, plato.Prezioa);
+
+                            resumen[plato.Izena] = (cantidad, plato.Prezioa);
                         };
 
-                        platosPanel.ColumnStyles.Clear();
-                        platosPanel.RowStyles.Clear();
-
-                        for (int i = 0; i < platosPanel.ColumnCount; i++)
-                            platosPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F)); // 50% cada columna
-
-                        for (int i = 0; i < platosPanel.RowCount; i++)
-                            platosPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50F)); // 50% cada fila
-
-                        // Crear los paneles de los productos
-                        foreach (var plato in platos)
+                        btnMinus.Click += (s, e) =>
                         {
-                            Panel productoPanel = new Panel
+                            int cantidad = int.Parse(lblCantidad.Text);
+                            if (cantidad > 0)
                             {
-                                Width = 175,
-                                Height = 175,
-                                Margin = new Padding(40, 20, 40, 20), // Más separación horizontal (40 px), vertical queda igual (20 px)
-                                BorderStyle = BorderStyle.FixedSingle,
-                                BackColor = Color.SaddleBrown // Fondo del producto
-                            };
-
-                            Label lblNombre = new Label
-                            {
-                                Text = plato.Izena,
-                                AutoSize = true,
-                                Font = new Font("Segoe UI", 12, FontStyle.Bold),
-                                ForeColor = Color.White,
-                                Location = new Point(10, 10)
-                            };
-                            productoPanel.Controls.Add(lblNombre);
-
-                            Label lblPrecio = new Label
-                            {
-                                Text = $"Precio: {plato.Prezioa:C2}",
-                                AutoSize = true,
-                                ForeColor = Color.White,
-                                Location = new Point(10, 40)
-                            };
-                            productoPanel.Controls.Add(lblPrecio);
-
-                            Button btnPlus = new Button
-                            {
-                                Text = "+",
-                                Width = 40,
-                                Height = 30,
-                                Location = new Point(10, 70)
-                            };
-                            productoPanel.Controls.Add(btnPlus);
-
-                            Button btnMinus = new Button
-                            {
-                                Text = "-",
-                                Width = 40,
-                                Height = 30,
-                                Location = new Point(60, 70)
-                            };
-                            productoPanel.Controls.Add(btnMinus);
-
-                            Label lblCantidad = new Label
-                            {
-                                Text = "0",
-                                Width = 40,
-                                TextAlign = ContentAlignment.MiddleCenter,
-                                Location = new Point(110, 70),
-                                ForeColor = Color.White
-                            };
-                            productoPanel.Controls.Add(lblCantidad);
-
-                            btnPlus.Click += (s, e) =>
-                            {
-                                int cantidad = int.Parse(lblCantidad.Text);
-                                cantidad++;
+                                cantidad--;
                                 lblCantidad.Text = cantidad.ToString();
 
-                                if (!resumen.ContainsKey(plato.Izena))
-                                    resumen[plato.Izena] = (0, plato.Prezioa);
+                                if (resumen.ContainsKey(plato.Izena))
+                                    resumen[plato.Izena] = (cantidad, plato.Prezioa);
+                            }
+                        };
 
-                                resumen[plato.Izena] = (cantidad, plato.Prezioa);
-                            };
+                        platosPanel.Controls.Add(productoPanel);
+                    }
 
-                            btnMinus.Click += (s, e) =>
-                            {
-                                int cantidad = int.Parse(lblCantidad.Text);
-                                if (cantidad > 0)
-                                {
-                                    cantidad--;
-                                    lblCantidad.Text = cantidad.ToString();
-
-                                    if (resumen.ContainsKey(plato.Izena))
-                                        resumen[plato.Izena] = (cantidad, plato.Prezioa);
-                                }
-                            };
-
-                            platosPanel.Controls.Add(productoPanel);
-                        }
-
-
-                    // Panel de botones inferior, centrado y más abajo
+                    // Panel de botones inferior
                     FlowLayoutPanel botonesPanel = new FlowLayoutPanel
                     {
                         Dock = DockStyle.Bottom,
                         FlowDirection = FlowDirection.LeftToRight,
                         AutoSize = true,
-                        Padding = new Padding(0, 20, 0, 20), // Margen superior e inferior para mover más abajo
+                        Padding = new Padding(0, 20, 0, 20),
                         BackColor = Color.BurlyWood,
                         Anchor = AnchorStyles.None
                     };
@@ -218,7 +230,7 @@ namespace _2taldea
                         Font = new Font("Segoe UI", 10, FontStyle.Bold),
                         Width = 150,
                         Height = 40,
-                        Margin = new Padding(20, 0, 20, 0) // Espaciado entre botones
+                        Margin = new Padding(20, 0, 20, 0)
                     };
                     btnGuardar.Click += BtnGuardar_Click;
 
@@ -230,7 +242,7 @@ namespace _2taldea
                         Font = new Font("Segoe UI", 10, FontStyle.Bold),
                         Width = 150,
                         Height = 40,
-                        Margin = new Padding(20, 0, 20, 0) // Espaciado entre botones
+                        Margin = new Padding(20, 0, 20, 0)
                     };
                     btnResumen.Click += BtnResumen_Click;
 
@@ -242,26 +254,24 @@ namespace _2taldea
                         Font = new Font("Segoe UI", 10, FontStyle.Bold),
                         Width = 150,
                         Height = 40,
-                        Margin = new Padding(20, 0, 20, 0) // Espaciado entre botones
+                        Margin = new Padding(20, 0, 20, 0)
                     };
                     btnBorrar.Click += BtnBorrar_Click;
 
-                    // Cambiar el orden de los botones en el panel
                     botonesPanel.Controls.AddRange(new Control[] { btnGuardar, btnResumen, btnBorrar });
 
-                    // Añadir los paneles al mainPanel
-                    mainPanel.Controls.Add(platosPanel); // Productos arriba
-                    mainPanel.Controls.Add(botonesPanel); // Botones abajo
+                    mainPanel.Controls.Add(platosPanel);
+                    mainPanel.Controls.Add(botonesPanel);
 
                     tabPage.Controls.Add(mainPanel);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar los platos de la categoría {kategoria}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-                }
-            }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error al cargar los platos de la categoría {kategoria}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
 
         private void CargarPedidosGuardados()
         {
@@ -401,6 +411,21 @@ namespace _2taldea
             {
                 MessageBox.Show($"Error al mostrar el resumen: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void bebidasTab_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void primerPlatoTab_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void segundoPlatoTab_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

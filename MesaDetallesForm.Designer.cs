@@ -3,11 +3,11 @@
     partial class MesaDetallesForm
     {
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label mesaLabel;
-        private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage bebidasTab;
-        private System.Windows.Forms.TabPage primerPlatoTab;
-        private System.Windows.Forms.TabPage segundoPlatoTab;
+        private Label mesaLabel;
+        private TabControl tabControl;
+        private TabPage bebidasTab;
+        private TabPage primerPlatoTab;
+        private TabPage segundoPlatoTab;
 
         protected override void Dispose(bool disposing)
         {
@@ -20,73 +20,83 @@
 
         private void InitializeComponent()
         {
-            this.mesaLabel = new System.Windows.Forms.Label();
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.bebidasTab = new System.Windows.Forms.TabPage();
-            this.primerPlatoTab = new System.Windows.Forms.TabPage();
-            this.segundoPlatoTab = new System.Windows.Forms.TabPage();
-
-            this.SuspendLayout();
-
+            mesaLabel=new Label();
+            tabControl=new TabControl();
+            bebidasTab=new TabPage();
+            primerPlatoTab=new TabPage();
+            segundoPlatoTab=new TabPage();
+            tabControl.SuspendLayout();
+            SuspendLayout();
             // 
             // mesaLabel
             // 
-            this.mesaLabel.AutoSize = true;
-            this.mesaLabel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.mesaLabel.ForeColor = System.Drawing.Color.DarkSlateGray;
-            this.mesaLabel.Location = new System.Drawing.Point(900, 10);
-            this.mesaLabel.Name = "mesaLabel";
-            this.mesaLabel.Size = new System.Drawing.Size(100, 30);
-            this.mesaLabel.TabIndex = 0;
-            this.mesaLabel.Text = "Mesa: 0";
-            this.mesaLabel.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-
+            mesaLabel.Anchor=AnchorStyles.Top|AnchorStyles.Right;
+            mesaLabel.AutoSize=true;
+            mesaLabel.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            mesaLabel.ForeColor=Color.DarkSlateGray;
+            mesaLabel.Location=new Point(900, 10);
+            mesaLabel.Name="mesaLabel";
+            mesaLabel.Size=new Size(79, 25);
+            mesaLabel.TabIndex=0;
+            mesaLabel.Text="Mesa: 0";
             // 
             // tabControl
             // 
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.TabPages.AddRange(new System.Windows.Forms.TabPage[] {
-                this.bebidasTab,
-                this.primerPlatoTab,
-                this.segundoPlatoTab
-            });
-
+            tabControl.Controls.Add(bebidasTab);
+            tabControl.Controls.Add(primerPlatoTab);
+            tabControl.Controls.Add(segundoPlatoTab);
+            tabControl.Dock=DockStyle.Fill;
+            tabControl.Location=new Point(0, 0);
+            tabControl.Name="tabControl";
+            tabControl.SelectedIndex=0;
+            tabControl.Size=new Size(1024, 768);
+            tabControl.TabIndex=0;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.TabControl_SelectedIndexChanged);
             // 
             // bebidasTab
             // 
-            this.bebidasTab.Text = "Edariak";
-            this.bebidasTab.BackColor = System.Drawing.Color.BurlyWood;
-
+            bebidasTab.BackColor=Color.BurlyWood;
+            bebidasTab.Location=new Point(4, 24);
+            bebidasTab.Name="bebidasTab";
+            bebidasTab.Size=new Size(1016, 740);
+            bebidasTab.TabIndex=0;
+            bebidasTab.Text="Edaria";
+            bebidasTab.Click+=bebidasTab_Click;
             // 
             // primerPlatoTab
             // 
-            this.primerPlatoTab.Text = "Lehenengo platera";
-            this.primerPlatoTab.BackColor = System.Drawing.Color.BurlyWood;
-
+            primerPlatoTab.BackColor=Color.BurlyWood;
+            primerPlatoTab.Location=new Point(4, 24);
+            primerPlatoTab.Name="primerPlatoTab";
+            primerPlatoTab.Size=new Size(1016, 740);
+            primerPlatoTab.TabIndex=1;
+            primerPlatoTab.Text="Lehenengo platera";
+            primerPlatoTab.Click+=primerPlatoTab_Click;
             // 
             // segundoPlatoTab
             // 
-            this.segundoPlatoTab.Text = "Bigarren platera";
-            this.segundoPlatoTab.BackColor = System.Drawing.Color.BurlyWood;
-
+            segundoPlatoTab.BackColor=Color.BurlyWood;
+            segundoPlatoTab.Location=new Point(4, 24);
+            segundoPlatoTab.Name="segundoPlatoTab";
+            segundoPlatoTab.Size=new Size(1016, 740);
+            segundoPlatoTab.TabIndex=2;
+            segundoPlatoTab.Text="Bigarren platera";
+            segundoPlatoTab.Click+=segundoPlatoTab_Click;
             // 
             // MesaDetallesForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1024, 768);
-            this.Controls.Add(this.tabControl);
-            this.Controls.Add(this.mesaLabel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
-            this.MaximizeBox = true;
-            this.MinimizeBox = true;
-            this.Name = "MesaDetallesForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Detalles de la Mesa";
-            this.Load += new System.EventHandler(this.MesaDetallesForm_Load);
-
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions=new SizeF(7F, 15F);
+            AutoScaleMode=AutoScaleMode.Font;
+            ClientSize=new Size(1024, 768);
+            Controls.Add(tabControl);
+            Controls.Add(mesaLabel);
+            Name="MesaDetallesForm";
+            StartPosition=FormStartPosition.CenterScreen;
+            Text="Detalles de la Mesa";
+            Load+=MesaDetallesForm_Load;
+            tabControl.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
     }
 }
