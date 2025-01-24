@@ -26,7 +26,7 @@ namespace _2taldea
             }
 
             // Actualizamos el texto del Label con el número de mesa
-            this.mesaLabel.Text = $" {mesaId}. Mahaia";
+            this.mesaLabel.Text = $"Mahaia: {mesaId}";
 
             // Agregar el evento SelectedIndexChanged al TabControl
             tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
@@ -37,35 +37,41 @@ namespace _2taldea
 
         private void MesaDetallesForm_Load(object sender, EventArgs e)
         {
-            // Configurar pestañas
+            // Crear el TabControl si no existe
             TabControl tabControl = new TabControl
             {
                 Dock = DockStyle.Fill
             };
             this.Controls.Add(tabControl);
 
-            // Crear pestañas
+            // Crear las pestañas
             TabPage bebidasTab = new TabPage("Edaria");
             TabPage primerPlatoTab = new TabPage("Lehenengo platera");
             TabPage segundoPlatoTab = new TabPage("Bigarren platera");
 
             tabControl.TabPages.AddRange(new[] { bebidasTab, primerPlatoTab, segundoPlatoTab });
 
-            // Agregar un Label en la esquina superior derecha para mostrar el número de mesa
+            // Crear el Label para mostrar el número de la mesa
             Label mesaLabel = new Label
             {
-                Text = $"Mesa: {mesaId}",
+                Text = $"Mahaia: {mesaId}",
                 AutoSize = true,
                 Font = new Font("Segoe UI", 14, FontStyle.Bold),
                 ForeColor = Color.DarkSlateGray,
-                Location = new Point(this.ClientSize.Width - 100, 10), // Posición inicial
-                Anchor = AnchorStyles.Top | AnchorStyles.Right // Fijar posición
+                Location = new Point(this.ClientSize.Width - 150, 10), // Ajusta la ubicación
+                Anchor = AnchorStyles.Top | AnchorStyles.Right // Fijar el Label a la derecha
             };
-            this.Controls.Add(mesaLabel);
 
-            // Asegurarnos de cargar los productos de la primera pestaña
+            // Asegurarse de que solo se agregue una vez
+            if (!this.Controls.Contains(mesaLabel))
+            {
+                this.Controls.Add(mesaLabel);
+            }
+
+            // Cargar los platos en la primera pestaña
             CargarPlatos("Edaria", bebidasTab); // Se carga de inmediato
         }
+
 
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -86,6 +92,7 @@ namespace _2taldea
                 }
             }
         }
+
         private void CargarPlatos(string kategoria, TabPage tabPage)
         {
             try
@@ -93,8 +100,8 @@ namespace _2taldea
                 using (ISession session = sessionFactory.OpenSession())
                 {
                     var platos = session.QueryOver<Platera>()
-                        .Where(p => p.Kategoria == kategoria)
-                        .List();
+                                        .Where(p => p.Kategoria == kategoria)
+                                        .List();
 
                     // Panel principal con diseño vertical
                     TableLayoutPanel mainPanel = new TableLayoutPanel
@@ -268,9 +275,25 @@ namespace _2taldea
 
                     botonesPanel.Controls.AddRange(new Control[] { btnGuardar, btnResumen, btnBorrar, btnAtzera });
 
+                    // Añadir los paneles al panel principal
                     mainPanel.Controls.Add(platosPanel);
                     mainPanel.Controls.Add(botonesPanel);
 
+                    // **Nuevo código**
+                    // Añadir el label de mesa
+                    Label mesaLabel = new Label
+                    {
+                        Text = $"Mahaia: {mesaId}",
+                        Font = new Font("Segoe UI", 16, FontStyle.Bold),
+                        ForeColor = Color.DarkSlateGray,
+                        AutoSize = true,
+                        Location = new Point(20, botonesPanel.Bottom + 20) // Esta vez se coloca con un offset de 20 píxeles hacia abajo
+                    };
+
+                    // Añadir al control del formulario directamente
+                    this.Controls.Add(mesaLabel);
+
+                    // Añadir el mainPanel a la TabPage
                     tabPage.Controls.Add(mainPanel);
                 }
             }
@@ -279,6 +302,7 @@ namespace _2taldea
                 MessageBox.Show($"Error al cargar los platos de la categoría {kategoria}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private void CargarPedidosGuardados()
