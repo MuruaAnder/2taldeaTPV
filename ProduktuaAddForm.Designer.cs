@@ -205,6 +205,7 @@
             Name="ProduktuaAddForm";
             Text="Produktua Gehitu";
             WindowState=FormWindowState.Maximized;
+            Load+=ProduktuaAddForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();

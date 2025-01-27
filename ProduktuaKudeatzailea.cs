@@ -68,7 +68,27 @@ namespace _2taldea
             }
         }
 
-        internal static string ProduktuaDelete(ISessionFactory sessionFactory, Produktua produktua)
+        public static List<Produktua> ObtenerProduktuak(ISessionFactory sessionFactory)
+        {
+            try
+            {
+                using (var session = sessionFactory.OpenSession())
+                {
+                    // Ejecutar la consulta para obtener todos los productos
+                    var produktuak = session.CreateQuery("FROM Produktua").List<Produktua>().ToList();
+
+                    return produktuak;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener los productos: {ex.Message}");
+                return new List<Produktua>(); // Retornar lista vacía en caso de error
+            }
+        }
+
+
+        public static string ProduktuaDelete(ISessionFactory sessionFactory, Produktua produktua)
         {
             try
             {
@@ -83,6 +103,26 @@ namespace _2taldea
             catch (Exception ex)
             {
                 return $"Errorea produktua ezabatzean: {ex.Message}";
+            }
+        }
+        public static List<Produktua> FiltrarProduktuak(ISessionFactory sessionFactory, string criterio)
+        {
+            try
+            {
+                using (var session = sessionFactory.OpenSession())
+                {
+                    string query = criterio == "Prezioa"
+                        ? "FROM Produktua ORDER BY Prezioa DESC"
+                        : "FROM Produktua ORDER BY Stock DESC";
+
+                    var produktuak = session.CreateQuery(query).List<Produktua>().ToList();
+                    return produktuak;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al filtrar los productos: {ex.Message}");
+                return new List<Produktua>(); 
             }
         }
     }

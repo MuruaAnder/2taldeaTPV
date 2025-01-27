@@ -26,20 +26,17 @@ namespace _2taldea
         {
             try
             {
-                using (var session = sessionFactory.OpenSession())
+                // Llamar al controlador para obtener los productos
+                var produktuak = ProduktuaKudeatzailea.ObtenerProduktuak(sessionFactory);
+
+                if (produktuak == null || produktuak.Count == 0)
                 {
-                    Console.WriteLine("Abriendo sesión de NHibernate...");
-                    var produktuak = session.CreateQuery("FROM Produktua").List<Produktua>();
-
-                    if (produktuak.Count == 0)
-                    {
-                        MessageBox.Show("No se encontraron productos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    dataGridViewProduktuak.DataSource = produktuak; // Asignar productos al DataGridView
-                    ConfigurarDataGridView(); // Configurar las columnas del DataGridView
+                    MessageBox.Show("No se encontraron productos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
+
+                dataGridViewProduktuak.DataSource = produktuak; // Asignar productos al DataGridView
+                ConfigurarDataGridView(); // Configurar las columnas del DataGridView
             }
             catch (Exception ex)
             {
@@ -97,21 +94,26 @@ namespace _2taldea
         {
             try
             {
-                using (var session = sessionFactory.OpenSession())
-                {
-                    string query = criterio == "Prezioa"
-                        ? "FROM Produktua ORDER BY Prezioa DESC"
-                        : "FROM Produktua ORDER BY Stock DESC";
+                // Llamar al controlador para obtener los productos filtrados
+                var produktuak = ProduktuaKudeatzailea.FiltrarProduktuak(sessionFactory, criterio);
 
-                    var produktuak = session.CreateQuery(query).List<Produktua>();
-                    dataGridViewProduktuak.DataSource = produktuak;
+                if (produktuak == null || produktuak.Count == 0)
+                {
+                    MessageBox.Show("No se encontraron productos con el criterio seleccionado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
+
+                // Asignar los productos filtrados al DataGridView
+                dataGridViewProduktuak.DataSource = produktuak;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al filtrar los productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             }
         }
+
 
         private void btnEditar_Click(object sender, EventArgs e)
         {

@@ -56,5 +56,9 @@ namespace _2taldea
             this.Close();
         }
 
+        private void ProduktuaAddForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
