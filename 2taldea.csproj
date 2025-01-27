@@ -45,6 +45,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="MainMenuForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProduktuakForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

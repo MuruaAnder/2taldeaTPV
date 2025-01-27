@@ -43,13 +43,19 @@ namespace _2taldea
 
             if (LoginKudeatzailea.LoginGerente(userName, password, sessionFactory))
             {
-                MessageBox.Show("Ongi etorri!", "Bienvenido", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Abrir el formulario principal y pasar el nombre del usuario y la sesión
+                MessageBox.Show("Ongi etorri, Gerentea!", "Bienvenido", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MainMenuForm mainMenu = new MainMenuForm(userName, sessionFactory);
-                this.Hide(); // Ocultar la ventana de inicio de sesión
-                mainMenu.ShowDialog(); // Mostrar el formulario principal de forma modal
-                this.Show(); // Volver al formulario de inicio de sesión después de cerrar el principal
+                this.Hide();
+                mainMenu.ShowDialog();
+                this.Show();
+            }
+            else if (LoginKudeatzailea.LoginSukaldaria(userName, password, sessionFactory))
+            {
+                MessageBox.Show("Ongi etorri, Sukaldaria!", "Bienvenido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MainMenuForm2 mainMenu2 = new MainMenuForm2(userName, sessionFactory);
+                this.Hide();
+                mainMenu2.ShowDialog();
+                this.Show();
             }
             else
             {
@@ -57,7 +63,10 @@ namespace _2taldea
             }
         }
 
-      
+
+
+
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
