@@ -55,6 +55,10 @@ namespace _2taldea
         {
         }
 
-
+        private void buttonTxat_Click(object sender, EventArgs e)
+        {
+            TxatForm txatForm = new TxatForm(nombreUsuario);
+            txatForm.Show();
+        }
     }
 }

@@ -29,6 +29,7 @@ namespace _2taldea
             labelIzena=new Label();
             labelMenua=new Label();
             pictureBoxLogo=new PictureBox();
+            buttonTxat=new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             SuspendLayout();
             // 
@@ -121,12 +122,27 @@ namespace _2taldea
             pictureBoxLogo.TabIndex=6;
             pictureBoxLogo.TabStop=false;
             // 
+            // buttonTxat
+            // 
+            buttonTxat.BackColor=Color.SaddleBrown;
+            buttonTxat.FlatStyle=FlatStyle.Flat;
+            buttonTxat.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            buttonTxat.ForeColor=Color.White;
+            buttonTxat.Location=new Point(796, 744);
+            buttonTxat.Name="buttonTxat";
+            buttonTxat.Size=new Size(332, 188);
+            buttonTxat.TabIndex=7;
+            buttonTxat.Text="Txata";
+            buttonTxat.UseVisualStyleBackColor=false;
+            buttonTxat.Click+=buttonTxat_Click;
+            // 
             // MainMenuForm
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
             BackColor=Color.BurlyWood;
             ClientSize=new Size(1920, 1080);
+            Controls.Add(buttonTxat);
             Controls.Add(pictureBoxLogo);
             Controls.Add(labelMenua);
             Controls.Add(labelIzena);
@@ -153,5 +169,6 @@ namespace _2taldea
         private Label labelIzena;
         private Label labelMenua;
         private PictureBox pictureBoxLogo;
+        private Button buttonTxat;
     }
 }
