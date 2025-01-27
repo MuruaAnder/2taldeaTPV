@@ -12,45 +12,37 @@ namespace _2taldea
         {
             InitializeComponent();
             this.sessionFactory = sessionFactory ?? throw new ArgumentNullException(nameof(sessionFactory));
+
         }
 
         private void btnGorde_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtIzena.Text) ||
-                !int.TryParse(txtStock.Text, out int stock) ||
-                !float.TryParse(txtPrezioa.Text, out float prezioa) ||
-                !int.TryParse(txtMax.Text, out int max) ||
-                !int.TryParse(txtMin.Text, out int min))
-            {
-                MessageBox.Show("Rellena todos los campos correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             try
             {
-                using (var session = sessionFactory.OpenSession())
-                using (var transaction = session.BeginTransaction())
-                {
-                    var produktua = new Produktua
-                    {
-                        Izena = txtIzena.Text,
-                        Stock = stock,
-                        Prezioa = prezioa,
-                        Max = max,
-                        Min = min
-                    };
+                String izena = txtIzena.Text;
+                int stock = Convert.ToInt16(txtStock.Text);
+                float prezioa = Convert.ToSingle(txtPrezioa.Text);
+                int max = Convert.ToInt16(txtMax.Text);
+                int min = Convert.ToInt16(txtMin.Text);
 
-                    session.Save(produktua);
-                    transaction.Commit();
+                String result = ProduktuaKudeatzailea.ProduktuaAdd(sessionFactory, izena, stock, prezioa, max, min);
+
+                if (result == "true")
+                {
                     MessageBox.Show("Producto añadido correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     DialogResult = DialogResult.OK;
                     Close();
                 }
+                else
+                {
+                    MessageBox.Show(result);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar el producto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message);
             }
+
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

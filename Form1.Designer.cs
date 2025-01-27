@@ -96,6 +96,7 @@
             Name="Form1";
             Text="Login - Restaurante";
             WindowState=FormWindowState.Maximized;
+            Load+=Form1_Load;
             Resize+=Form1_Resize;
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
