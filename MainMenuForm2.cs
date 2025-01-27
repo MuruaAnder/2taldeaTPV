@@ -40,7 +40,7 @@ namespace _2taldea
 
         private void btnEskaerak_Click(object sender, EventArgs e)
         {
-            EskaerakForm eskaerakForm = new EskaerakForm(nombreUsuario, sessionFactory);
+            EskaerakForm2 eskaerakForm = new EskaerakForm2(nombreUsuario, sessionFactory);
             eskaerakForm.Show();
         }
 

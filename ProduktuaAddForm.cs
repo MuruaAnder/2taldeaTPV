@@ -29,7 +29,7 @@ namespace _2taldea
 
                 if (result == "true")
                 {
-                    MessageBox.Show("Producto añadido correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Produktua ongi gordeta", "Informazioa", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     DialogResult = DialogResult.OK;
                     Close();
                 }
@@ -40,7 +40,7 @@ namespace _2taldea
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Errorea: " + ex.Message);
             }
 
         }

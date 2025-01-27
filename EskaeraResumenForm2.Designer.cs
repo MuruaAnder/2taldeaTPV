@@ -1,6 +1,6 @@
 ﻿namespace _2taldea
 {
-    partial class EskaeraResumenForm
+    partial class EskaeraResumenForm2 : Form
     {
         private System.ComponentModel.IContainer components = null;
         private Label labelMesa;
@@ -9,7 +9,7 @@
         private FlowLayoutPanel flowLayoutPanelPedidos;
         private Label labelPrezioa;
         private Button btnAtzera;
-        private Button btnEskaeraSortu;
+        private Button btnEskaeraSortu2;
         private PictureBox pictureBoxLogo;
 
         protected override void Dispose(bool disposing)
@@ -30,7 +30,7 @@
             flowLayoutPanelPedidos=new FlowLayoutPanel();
             labelPrezioa=new Label();
             btnAtzera=new Button();
-            btnEskaeraSortu=new Button();
+            btnEskaeraSortu2=new Button();
             pictureBoxLogo=new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             SuspendLayout();
@@ -104,17 +104,17 @@
             // 
             // btnEskaeraSortu
             // 
-            btnEskaeraSortu.BackColor=Color.Green;
-            btnEskaeraSortu.FlatStyle=FlatStyle.Flat;
-            btnEskaeraSortu.Font=new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnEskaeraSortu.ForeColor=Color.White;
-            btnEskaeraSortu.Location=new Point(150, 900);
-            btnEskaeraSortu.Name="btnEskaeraSortu";
-            btnEskaeraSortu.Size=new Size(150, 50);
-            btnEskaeraSortu.TabIndex=6;
-            btnEskaeraSortu.Text="Eskaera sortu";
-            btnEskaeraSortu.UseVisualStyleBackColor=false;
-            btnEskaeraSortu.Click+=btnEskaeraSortu_Click;
+            btnEskaeraSortu2.BackColor=Color.Gray;
+            btnEskaeraSortu2.FlatStyle=FlatStyle.Flat;
+            btnEskaeraSortu2.Font=new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEskaeraSortu2.ForeColor=Color.White;
+            btnEskaeraSortu2.Location=new Point(150, 900);
+            btnEskaeraSortu2.Name="btnEskaeraSortu2";
+            btnEskaeraSortu2.Size=new Size(150, 50);
+            btnEskaeraSortu2.TabIndex=6;
+            btnEskaeraSortu2.Text="Eskaera sortu";
+            btnEskaeraSortu2.UseVisualStyleBackColor=false;
+            btnEskaeraSortu2.Click+=btnEskaeraSortu2_Click;
             // 
             // pictureBoxLogo
             // 
@@ -138,7 +138,7 @@
             Controls.Add(flowLayoutPanelPedidos);
             Controls.Add(labelPrezioa);
             Controls.Add(btnAtzera);
-            Controls.Add(btnEskaeraSortu);
+            Controls.Add(btnEskaeraSortu2);
             Controls.Add(pictureBoxLogo);
             FormBorderStyle=FormBorderStyle.None;
             Name="EskaeraResumenForm";

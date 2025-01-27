@@ -37,7 +37,7 @@ namespace _2taldea
 
                 if (result == "true")
                 {
-                    MessageBox.Show("Producto editado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Produktua ongi editatuta", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     DialogResult = DialogResult.OK;
                     Close();
                 }
@@ -50,15 +50,15 @@ namespace _2taldea
             {
                 MessageBox.Show($"Errorea produktua eguneratzean: {ex.Message}", "Errorea", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-    }
+        }
 
 
 
-    private void btnCancelar_Click(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-    
+
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
@@ -94,6 +94,11 @@ namespace _2taldea
 
 
         private void labelProduktuak_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ProduktuaEditForm_Load(object sender, EventArgs e)
         {
 
         }

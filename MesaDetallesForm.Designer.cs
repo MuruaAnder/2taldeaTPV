@@ -51,7 +51,7 @@
             tabControl.SelectedIndex=0;
             tabControl.Size=new Size(1024, 768);
             tabControl.TabIndex=0;
-            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.TabControl_SelectedIndexChanged);
+            tabControl.SelectedIndexChanged+=TabControl_SelectedIndexChanged;
             // 
             // bebidasTab
             // 
@@ -61,6 +61,7 @@
             bebidasTab.Size=new Size(1016, 740);
             bebidasTab.TabIndex=0;
             bebidasTab.Text="Edaria";
+            bebidasTab.Click+=bebidasTab_Click;
             // 
             // primerPlatoTab
             // 
@@ -90,12 +91,11 @@
             Name="MesaDetallesForm";
             StartPosition=FormStartPosition.CenterScreen;
             Text="Detalles de la Mesa";
+            WindowState=FormWindowState.Maximized;
             Load+=MesaDetallesForm_Load;
             tabControl.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
-            this.WindowState = FormWindowState.Maximized;
-
         }
     }
 }

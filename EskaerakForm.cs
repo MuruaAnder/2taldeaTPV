@@ -29,89 +29,68 @@ namespace _2taldea
         {
             try
             {
-                using (ISession session = sessionFactory.OpenSession())
+                // Llamar al controlador para obtener las mesas
+                var mesas = KomandakKudeatzailea.ObtenerMesas(sessionFactory);
+
+                int filas = 2; // Número de filas (2 filas)
+                int buttonWidth = 175;
+                int buttonHeight = 175;
+                int buttonSpacingHorizontal = 40; // Espaciado horizontal aumentado
+                int buttonSpacingVertical = 50; // Espaciado vertical aumentado
+
+                // Calcula el número de mesas por fila
+                int mesasPorFila = (int)Math.Ceiling((double)mesas.Count / filas);
+
+                // Calcula el ancho total de los botones y espacios para centrar
+                int totalWidth = mesasPorFila * buttonWidth + (mesasPorFila - 1) * buttonSpacingHorizontal;
+                int startX = (this.ClientSize.Width - totalWidth) / 2; // Centrado horizontal
+                int startY = 300; // Margen superior fijo
+
+                for (int i = 0; i < mesas.Count; i++)
                 {
-                    IList<Mahaia> mesas = session.CreateQuery("FROM Mahaia").List<Mahaia>();
+                    Mahaia mesa = mesas[i];
 
-                    int filas = 2;
-                    int buttonWidth = 175;
-                    int buttonHeight = 175;
-                    int buttonSpacingHorizontal = 40;
-                    int buttonSpacingVertical = 50;
-
-                    int mesasPorFila = (int)Math.Ceiling((double)mesas.Count / filas);
-                    int totalWidth = mesasPorFila * buttonWidth + (mesasPorFila - 1) * buttonSpacingHorizontal;
-                    int startX = (this.ClientSize.Width - totalWidth) / 2;
-                    int startY = 300;
-
-                    for (int i = 0; i < mesas.Count; i++)
+                    Button btnMesa = new Button
                     {
-                        Mahaia mesa = mesas[i];
+                        Text = $"{mesa.MahaiZenbakia} .Mahaia\n{mesa.Kopurua} pertsonentzat",
+                        Width = buttonWidth,
+                        Height = buttonHeight,
+                        Font = new Font("Segoe UI", 14F, FontStyle.Bold),
+                        BackColor = Color.SaddleBrown,
+                        ForeColor = Color.White,
+                        FlatStyle = FlatStyle.Flat,
+                        Tag = mesa.Id
+                    };
 
-                        Button btnMesa = new Button
-                        {
-                            Text = $"{mesa.MahaiZenbakia} .Mahaia\n{mesa.Kopurua} pertsonentzat",
-                            Width = buttonWidth,
-                            Height = buttonHeight,
-                            Font = new Font("Segoe UI", 14F, FontStyle.Bold),
-                            BackColor = Color.SaddleBrown,
-                            ForeColor = Color.White,
-                            FlatStyle = FlatStyle.Flat,
-                            Tag = mesa.Id
-                        };
+                    int column = i % mesasPorFila;
+                    int row = i / mesasPorFila;
 
-                        int column = i % mesasPorFila;
-                        int row = i / mesasPorFila;
+                    btnMesa.Location = new Point(
+                        startX + column * (buttonWidth + buttonSpacingHorizontal),
+                        startY + row * (buttonHeight + buttonSpacingVertical) + (row * 20) // Ajuste adicional para la segunda fila
+                    );
 
-                        btnMesa.Location = new Point(
-                            startX + column * (buttonWidth + buttonSpacingHorizontal),
-                            startY + row * (buttonHeight + buttonSpacingVertical) + (row * 20)
-                        );
-
-                        btnMesa.Click += BtnMesa_Click;
-                        this.Controls.Add(btnMesa);
-                    }
+                    btnMesa.Click += BtnMesa_Click;
+                    this.Controls.Add(btnMesa);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Errorea mesak sortzean: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Errorea mahaiak sortzean: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void BtnMesa_Click(object sender, EventArgs e)
         {
-            try
+            Button btn = sender as Button;
+            if (btn != null)
             {
-                Button btn = sender as Button;
-                if (btn != null)
-                {
-                    int mesaId = (int)btn.Tag;
+                int mesaId = (int)btn.Tag;
 
-                    // Buscar pedidos activos de la mesa seleccionada
-                    using (ISession session = sessionFactory.OpenSession())
-                    {
-                        var pedidosActivos = session.CreateQuery("FROM Eskaera WHERE MesaId = :mesaId AND Activo = true")
-                                                    .SetParameter("mesaId", mesaId)
-                                                    .List<Eskaera>();
-
-                        if (pedidosActivos.Count == 0)
-                        {
-                            MessageBox.Show("No hay pedidos activos para esta mesa.", "Resumen de Mesa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            return;
-                        }
-
-                        // Mostrar el resumen en un nuevo formulario, pasando el nombre del usuario
-                        EskaeraResumenForm resumenForm = new EskaeraResumenForm(mesaId, pedidosActivos.ToList(), nombreUsuario, sessionFactory);
-                        resumenForm.ShowDialog();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Errorea mahaia aukeratzean: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                EskaeraKudeatzaile.ProcesarMesa(mesaId, nombreUsuario, sessionFactory);
             }
         }
+
 
         private void BtnAtzera_Click(object sender, EventArgs e)
         {

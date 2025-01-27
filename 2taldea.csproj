@@ -45,6 +45,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="EskaerakForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="EskaeraResumenForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="MainMenuForm2.cs">
       <SubType>Form</SubType>
     </Compile>

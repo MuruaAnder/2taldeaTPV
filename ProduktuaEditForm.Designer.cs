@@ -8,21 +8,21 @@ namespace _2taldea
     {
         private System.ComponentModel.IContainer components = null;
 
-        private System.Windows.Forms.TextBox txtIzena;
-        private System.Windows.Forms.TextBox txtStock;
-        private System.Windows.Forms.TextBox txtPrezioa;
-        private System.Windows.Forms.TextBox txtMax;
-        private System.Windows.Forms.TextBox txtMin;
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Button btnCancelar;
-        private System.Windows.Forms.Button btnEliminar;
-        private System.Windows.Forms.Label labelIzena;
-        private System.Windows.Forms.Label labelProduktuak;
-        private System.Windows.Forms.Label labelStock;
-        private System.Windows.Forms.Label labelPrezioa;
-        private System.Windows.Forms.Label labelMax;
-        private System.Windows.Forms.Label labelMin;
-        private System.Windows.Forms.PictureBox pictureBoxLogo;
+        private TextBox txtIzena;
+        private TextBox txtStock;
+        private TextBox txtPrezioa;
+        private TextBox txtMax;
+        private TextBox txtMin;
+        private Button btnGuardar;
+        private Button btnCancelar;
+        private Button btnEliminar;
+        private Label labelIzena;
+        private Label labelProduktuak;
+        private Label labelStock;
+        private Label labelPrezioa;
+        private Label labelMax;
+        private Label labelMin;
+        private PictureBox pictureBoxLogo;
 
         protected override void Dispose(bool disposing)
         {
@@ -36,151 +36,199 @@ namespace _2taldea
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProduktuaEditForm));
-
-            this.txtIzena = new System.Windows.Forms.TextBox();
-            this.txtStock = new System.Windows.Forms.TextBox();
-            this.txtPrezioa = new System.Windows.Forms.TextBox();
-            this.txtMax = new System.Windows.Forms.TextBox();
-            this.txtMin = new System.Windows.Forms.TextBox();
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnCancelar = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
-            this.labelIzena = new System.Windows.Forms.Label();
-            this.labelProduktuak = new System.Windows.Forms.Label();
-            this.labelStock = new System.Windows.Forms.Label();
-            this.labelPrezioa = new System.Windows.Forms.Label();
-            this.labelMax = new System.Windows.Forms.Label();
-            this.labelMin = new System.Windows.Forms.Label();
-            this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
-            this.SuspendLayout();
-
+            txtIzena=new TextBox();
+            txtStock=new TextBox();
+            txtPrezioa=new TextBox();
+            txtMax=new TextBox();
+            txtMin=new TextBox();
+            btnGuardar=new Button();
+            btnCancelar=new Button();
+            btnEliminar=new Button();
+            labelIzena=new Label();
+            labelProduktuak=new Label();
+            labelStock=new Label();
+            labelPrezioa=new Label();
+            labelMax=new Label();
+            labelMin=new Label();
+            pictureBoxLogo=new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
+            SuspendLayout();
             // 
             // txtIzena
             // 
-            this.txtIzena.Location = new System.Drawing.Point(850, 400);
-            this.txtIzena.Size = new System.Drawing.Size(350, 30);
+            txtIzena.Location=new Point(850, 400);
+            txtIzena.Name="txtIzena";
+            txtIzena.Size=new Size(350, 23);
+            txtIzena.TabIndex=7;
             // 
             // txtStock
             // 
-            this.txtStock.Location = new System.Drawing.Point(850, 450);
-            this.txtStock.Size = new System.Drawing.Size(350, 30);
+            txtStock.Location=new Point(850, 450);
+            txtStock.Name="txtStock";
+            txtStock.Size=new Size(350, 23);
+            txtStock.TabIndex=8;
             // 
             // txtPrezioa
             // 
-            this.txtPrezioa.Location = new System.Drawing.Point(850, 500);
-            this.txtPrezioa.Size = new System.Drawing.Size(350, 30);
+            txtPrezioa.Location=new Point(850, 500);
+            txtPrezioa.Name="txtPrezioa";
+            txtPrezioa.Size=new Size(350, 23);
+            txtPrezioa.TabIndex=9;
             // 
             // txtMax
             // 
-            this.txtMax.Location = new System.Drawing.Point(850, 550);
-            this.txtMax.Size = new System.Drawing.Size(350, 30);
+            txtMax.Location=new Point(850, 550);
+            txtMax.Name="txtMax";
+            txtMax.Size=new Size(350, 23);
+            txtMax.TabIndex=10;
             // 
             // txtMin
             // 
-            this.txtMin.Location = new System.Drawing.Point(850, 600);
-            this.txtMin.Size = new System.Drawing.Size(350, 30);
+            txtMin.Location=new Point(850, 600);
+            txtMin.Name="txtMin";
+            txtMin.Size=new Size(350, 23);
+            txtMin.TabIndex=11;
             // 
-            // Labels
+            // btnGuardar
             // 
-            this.labelProduktuak.AutoSize = true;
-            this.labelProduktuak.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.labelProduktuak.Location = new System.Drawing.Point(600, 400);
-            this.labelProduktuak.Text = "Izena:";
-
-            this.labelStock.AutoSize = true;
-            this.labelStock.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.labelStock.Location = new System.Drawing.Point(600, 450);
-            this.labelStock.Text = "Stock:";
-
-            this.labelPrezioa.AutoSize = true;
-            this.labelPrezioa.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.labelPrezioa.Location = new System.Drawing.Point(600, 500);
-            this.labelPrezioa.Text = "Prezioa:";
-
-            this.labelMax.AutoSize = true;
-            this.labelMax.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.labelMax.Location = new System.Drawing.Point(600, 550);
-            this.labelMax.Text = "Max:";
-
-            this.labelMin.AutoSize = true;
-            this.labelMin.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.labelMin.Location = new System.Drawing.Point(600, 600);
-            this.labelMin.Text = "Min:";
-
-            this.labelIzena.AutoSize = true;
-            this.labelIzena.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold);
-            this.labelIzena.ForeColor = System.Drawing.Color.Gray;
-            this.labelIzena.Location = new System.Drawing.Point(850, 50);
-            this.labelIzena.Text = "Produktuaren Editorea";
-
+            btnGuardar.BackColor=Color.SaddleBrown;
+            btnGuardar.FlatStyle=FlatStyle.Flat;
+            btnGuardar.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            btnGuardar.ForeColor=Color.White;
+            btnGuardar.Location=new Point(500, 800);
+            btnGuardar.Name="btnGuardar";
+            btnGuardar.Size=new Size(150, 50);
+            btnGuardar.TabIndex=12;
+            btnGuardar.Text="Gorde";
+            btnGuardar.UseVisualStyleBackColor=false;
+            btnGuardar.Click+=btnGuardar_Click;
             // 
-            // Botones
+            // btnCancelar
             // 
-            this.btnGuardar.BackColor = System.Drawing.Color.SaddleBrown;
-            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(500, 800);
-            this.btnGuardar.Size = new System.Drawing.Size(150, 50);
-            this.btnGuardar.Text = "Gorde";
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
-
-            this.btnCancelar.BackColor = System.Drawing.Color.DarkOrange;
-            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(850, 800);
-            this.btnCancelar.Size = new System.Drawing.Size(150, 50);
-            this.btnCancelar.Text = "Utzi";
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
-
-            this.btnEliminar.BackColor = System.Drawing.Color.Red;
-            this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEliminar.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(1200, 800);
-            this.btnEliminar.Size = new System.Drawing.Size(150, 50);
-            this.btnEliminar.Text = "Ezabatu";
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
-
+            btnCancelar.BackColor=Color.DarkOrange;
+            btnCancelar.FlatStyle=FlatStyle.Flat;
+            btnCancelar.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            btnCancelar.ForeColor=Color.White;
+            btnCancelar.Location=new Point(850, 800);
+            btnCancelar.Name="btnCancelar";
+            btnCancelar.Size=new Size(150, 50);
+            btnCancelar.TabIndex=13;
+            btnCancelar.Text="Utzi";
+            btnCancelar.UseVisualStyleBackColor=false;
+            btnCancelar.Click+=btnCancelar_Click;
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor=Color.Red;
+            btnEliminar.FlatStyle=FlatStyle.Flat;
+            btnEliminar.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEliminar.ForeColor=Color.White;
+            btnEliminar.Location=new Point(1200, 800);
+            btnEliminar.Name="btnEliminar";
+            btnEliminar.Size=new Size(150, 50);
+            btnEliminar.TabIndex=14;
+            btnEliminar.Text="Ezabatu";
+            btnEliminar.UseVisualStyleBackColor=false;
+            btnEliminar.Click+=btnEliminar_Click;
+            // 
+            // labelIzena
+            // 
+            labelIzena.AutoSize=true;
+            labelIzena.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
+            labelIzena.ForeColor=Color.Gray;
+            labelIzena.Location=new Point(850, 50);
+            labelIzena.Name="labelIzena";
+            labelIzena.Size=new Size(361, 45);
+            labelIzena.TabIndex=1;
+            labelIzena.Text="Produktuaren Editorea";
+            // 
+            // labelProduktuak
+            // 
+            labelProduktuak.AutoSize=true;
+            labelProduktuak.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            labelProduktuak.Location=new Point(600, 400);
+            labelProduktuak.Name="labelProduktuak";
+            labelProduktuak.Size=new Size(64, 25);
+            labelProduktuak.TabIndex=2;
+            labelProduktuak.Text="Izena:";
+            // 
+            // labelStock
+            // 
+            labelStock.AutoSize=true;
+            labelStock.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            labelStock.Location=new Point(600, 450);
+            labelStock.Name="labelStock";
+            labelStock.Size=new Size(68, 25);
+            labelStock.TabIndex=3;
+            labelStock.Text="Stock:";
+            // 
+            // labelPrezioa
+            // 
+            labelPrezioa.AutoSize=true;
+            labelPrezioa.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            labelPrezioa.Location=new Point(600, 500);
+            labelPrezioa.Name="labelPrezioa";
+            labelPrezioa.Size=new Size(83, 25);
+            labelPrezioa.TabIndex=4;
+            labelPrezioa.Text="Prezioa:";
+            // 
+            // labelMax
+            // 
+            labelMax.AutoSize=true;
+            labelMax.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            labelMax.Location=new Point(600, 550);
+            labelMax.Name="labelMax";
+            labelMax.Size=new Size(56, 25);
+            labelMax.TabIndex=5;
+            labelMax.Text="Max:";
+            // 
+            // labelMin
+            // 
+            labelMin.AutoSize=true;
+            labelMin.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            labelMin.Location=new Point(600, 600);
+            labelMin.Name="labelMin";
+            labelMin.Size=new Size(52, 25);
+            labelMin.TabIndex=6;
+            labelMin.Text="Min:";
             // 
             // pictureBoxLogo
             // 
-            this.pictureBoxLogo.Image = (System.Drawing.Image)resources.GetObject("pictureBoxLogo.Image");
-            this.pictureBoxLogo.Location = new System.Drawing.Point(50, 30);
-            this.pictureBoxLogo.Size = new System.Drawing.Size(250, 200);
-            this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-
+            pictureBoxLogo.Image=(Image)resources.GetObject("pictureBoxLogo.Image");
+            pictureBoxLogo.Location=new Point(50, 30);
+            pictureBoxLogo.Name="pictureBoxLogo";
+            pictureBoxLogo.Size=new Size(250, 200);
+            pictureBoxLogo.SizeMode=PictureBoxSizeMode.Zoom;
+            pictureBoxLogo.TabIndex=0;
+            pictureBoxLogo.TabStop=false;
             // 
             // ProduktuaEditForm
             // 
-            this.BackColor = System.Drawing.Color.BurlyWood;
-            this.ClientSize = new System.Drawing.Size(1920, 1061);
-            this.Controls.Add(this.pictureBoxLogo);
-            this.Controls.Add(this.labelIzena);
-            this.Controls.Add(this.labelProduktuak);
-            this.Controls.Add(this.labelStock);
-            this.Controls.Add(this.labelPrezioa);
-            this.Controls.Add(this.labelMax);
-            this.Controls.Add(this.labelMin);
-            this.Controls.Add(this.txtIzena);
-            this.Controls.Add(this.txtStock);
-            this.Controls.Add(this.txtPrezioa);
-            this.Controls.Add(this.txtMax);
-            this.Controls.Add(this.txtMin);
-            this.Controls.Add(this.btnGuardar);
-            this.Controls.Add(this.btnCancelar);
-            this.Controls.Add(this.btnEliminar);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "ProduktuaEditForm";
-            this.Text = "Produktuaren Editorea";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            BackColor=Color.BurlyWood;
+            ClientSize=new Size(1920, 1061);
+            Controls.Add(pictureBoxLogo);
+            Controls.Add(labelIzena);
+            Controls.Add(labelProduktuak);
+            Controls.Add(labelStock);
+            Controls.Add(labelPrezioa);
+            Controls.Add(labelMax);
+            Controls.Add(labelMin);
+            Controls.Add(txtIzena);
+            Controls.Add(txtStock);
+            Controls.Add(txtPrezioa);
+            Controls.Add(txtMax);
+            Controls.Add(txtMin);
+            Controls.Add(btnGuardar);
+            Controls.Add(btnCancelar);
+            Controls.Add(btnEliminar);
+            FormBorderStyle=FormBorderStyle.FixedDialog;
+            Name="ProduktuaEditForm";
+            Text="Produktuaren Editorea";
+            WindowState=FormWindowState.Maximized;
+            Load+=ProduktuaEditForm_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
     }
 }

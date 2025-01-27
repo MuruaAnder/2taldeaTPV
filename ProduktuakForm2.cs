@@ -31,7 +31,7 @@ namespace _2taldea
 
                 if (produktuak == null || produktuak.Count == 0)
                 {
-                    MessageBox.Show("No se encontraron productos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Ez dira produktuak billatu", "Abixua", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -40,9 +40,7 @@ namespace _2taldea
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar los productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                MessageBox.Show($"Produktuak kargatzean arazoak: {ex.Message}", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -75,7 +73,7 @@ namespace _2taldea
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error configurando el DataGridView: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"DataGridView konfiguratzean arazoak {ex.Message}", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -99,7 +97,7 @@ namespace _2taldea
 
                 if (produktuak == null || produktuak.Count == 0)
                 {
-                    MessageBox.Show("No se encontraron productos con el criterio seleccionado.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Ez dira produktuak billatu kondizio hoiekin", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -108,9 +106,7 @@ namespace _2taldea
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al filtrar los productos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Console.WriteLine($"Error: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                MessageBox.Show($"Produktuak filtratzean arazoak {ex.Message}", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -1,30 +1,29 @@
-﻿using NHibernate;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using NHibernate;
 
 namespace _2taldea
 {
-    public partial class KomandakForm : Form
+    public partial class EskaerakForm2 : Form
     {
         private string nombreUsuario;
         private ISessionFactory sessionFactory;
 
-        // Constructor del formulario
-        public KomandakForm(string nombreUsuario, ISessionFactory sessionFactory)
+        public EskaerakForm2(string nombreUsuario, ISessionFactory sessionFactory)
         {
             InitializeComponent();
-
-            // Asegúrate de que nombreUsuario no sea null
             this.nombreUsuario = nombreUsuario ?? throw new ArgumentNullException(nameof(nombreUsuario));
-
-            // Asegúrate de que sessionFactory no sea null
             this.sessionFactory = sessionFactory ?? throw new ArgumentNullException(nameof(sessionFactory));
         }
 
-        private void KomandakForm_Load(object sender, EventArgs e)
+        private void EskaerakForm_Load(object sender, EventArgs e)
         {
             labelIzena.Text = nombreUsuario;
             CrearMesas();
         }
-
 
         private void CrearMesas()
         {
@@ -77,29 +76,21 @@ namespace _2taldea
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Errorea mahaiak sortzean: {ex.Message}", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Errorea mahaiak sortzean: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void BtnMesa_Click(object sender, EventArgs e)
         {
-            try
+            Button btn = sender as Button;
+            if (btn != null)
             {
-                Button btn = sender as Button;
-                if (btn != null)
-                {
-                    int mesaId = (int)btn.Tag;
+                int mesaId = (int)btn.Tag;
 
-                    MesaDetallesForm detallesForm = new MesaDetallesForm(mesaId, sessionFactory);
-                    detallesForm.ShowDialog();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Errorea mahaia aukeratzean: {ex.Message}", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                EskaeraKudeatzaile2.ProcesarMesa(mesaId, nombreUsuario, sessionFactory);
             }
         }
+
 
         private void BtnAtzera_Click(object sender, EventArgs e)
         {
@@ -107,3 +98,4 @@ namespace _2taldea
         }
     }
 }
+

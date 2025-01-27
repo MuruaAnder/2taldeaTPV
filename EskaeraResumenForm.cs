@@ -213,7 +213,7 @@ namespace _2taldea
                     .SetFont(regularFont).SetFontSize(10).SetTextAlignment(TextAlignment.CENTER));
             }
 
-            MessageBox.Show($"PDF generado con éxito en:\n{path}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"PDF-a sortuta:\n{path}", "Ongi!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void EskaeraResumenForm_Load(object sender, EventArgs e)

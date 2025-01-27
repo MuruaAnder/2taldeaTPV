@@ -37,7 +37,7 @@ namespace _2taldea
 
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Rellena todos los campos.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Kampo guztiak bete", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

@@ -28,11 +28,11 @@ namespace _2taldea
             };
 
             // Configurar las columnas
-            dgvResumen.Columns.Add("EskaeraZenb", "Número de Pedido");
-            dgvResumen.Columns.Add("Izena", "Producto");
-            dgvResumen.Columns.Add("Cantidad", "Cantidad");
-            dgvResumen.Columns.Add("Precio", "Precio");
-            dgvResumen.Columns.Add("Total", "Total");
+            dgvResumen.Columns.Add("EskaeraZenb", "Eskaera zenbakia");
+            dgvResumen.Columns.Add("Izena", "Produktua");
+            dgvResumen.Columns.Add("Cantidad", "Kantitatea");
+            dgvResumen.Columns.Add("Precio", "Prezioa");
+            dgvResumen.Columns.Add("Total", "Totala");
 
             // Agregar los datos de los pedidos
             foreach (var pedido in pedidos)
@@ -46,7 +46,7 @@ namespace _2taldea
             // Crear un botón para borrar el pedido
             Button btnBorrar = new Button
             {
-                Text = "Borrar Pedido",
+                Text = "Eskaera ezabatu",
                 Dock = DockStyle.Bottom,
                 Height = 40
             };
@@ -57,7 +57,7 @@ namespace _2taldea
         private void BtnBorrar_Click(object sender, EventArgs e)
         {
             // Comprobar si hay un pedido seleccionado
-            if (MessageBox.Show("¿Estás seguro de que quieres borrar este pedido?", "Borrar Pedido", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show("Ziur zaude eskaera ezabatu nahai duzula?", "Eskaera ezabatu", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 using (ISession session = sessionFactory.OpenSession())
                 using (ITransaction transaction = session.BeginTransaction())
@@ -71,13 +71,13 @@ namespace _2taldea
                             // Eliminar el último pedido
                             session.Delete(ultimoPedido);
                             transaction.Commit();
-                            MessageBox.Show("Pedido borrado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Ongi borratuta eskaeria.", "Ongi!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             this.Close(); // Cerrar el formulario de resumen
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error al borrar el pedido: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Eskaera ezabatzean arazoak: {ex.Message}", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
