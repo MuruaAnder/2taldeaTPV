@@ -340,6 +340,7 @@ namespace _2taldea
             MessageBox.Show("Datuak ongi gorde dira", "Ongi!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+
         private void BtnBorrar_Click(object sender, EventArgs e)
         {
             KomandakKudeatzailea.BorrarPedidos(sessionFactory, mesaId);

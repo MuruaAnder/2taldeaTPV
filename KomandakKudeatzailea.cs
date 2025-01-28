@@ -46,25 +46,75 @@ namespace _2taldea
         // Método para guardar un pedido y activarlo
         public static void GuardarEskaera(ISessionFactory sessionFactory, int mesaId, Dictionary<string, (int cantidad, float precio)> resumen)
         {
-            try
+            using (var session = sessionFactory.OpenSession())
+            using (var transaction = session.BeginTransaction())
             {
-                using (ISession session = sessionFactory.OpenSession())
-                using (ITransaction transaction = session.BeginTransaction())
+                try
                 {
+                    // Comprobar si la mesa existe
+                    var mesa = session.Get<Mahaia>(mesaId);
+                    if (mesa == null)
+                    {
+                        throw new Exception($"No se encontró la mesa con ID {mesaId}.");
+                    }
+
                     int nuevoEskaeraZenb = ObtenerNuevoEskaeraZenb(session);
 
                     foreach (var item in resumen)
                     {
-                        var nombreProducto = item.Key;
+                        var nombrePlato = item.Key;
                         var cantidad = item.Value.cantidad;
                         var precio = item.Value.precio;
 
+                        // Buscar el plato en la tabla Platera
+                        var plato = session.QueryOver<Platera>()
+                                           .Where(p => p.Izena == nombrePlato)
+                                           .SingleOrDefault();
+
+                        if (plato == null)
+                        {
+                            throw new Exception($"Plato '{nombrePlato}' no encontrado en la base de datos.");
+                        }
+
+                        // Buscar todos los productos en Produktua con el mismo nombre
+                        var productos = session.QueryOver<Produktua>()
+                                               .Where(p => p.Izena == plato.Izena)
+                                               .List();
+
+                        if (productos == null || productos.Count == 0)
+                        {
+                            throw new Exception($"No se encontró un producto asociado al plato '{nombrePlato}' en la tabla Produktua.");
+                        }
+
+                        // Sumar el stock total disponible de todos los productos con ese nombre
+                        int stockTotalDisponible = productos.Sum(p => p.Stock);
+
+                        // Verificar si hay stock suficiente
+                        if (stockTotalDisponible < cantidad)
+                        {
+                            throw new Exception($"Stock insuficiente para '{nombrePlato}'. Disponible: {stockTotalDisponible}, solicitado: {cantidad}");
+                        }
+
+                        // Reducir el stock proporcionalmente en cada producto
+                        int cantidadRestante = cantidad;
+                        foreach (var producto in productos)
+                        {
+                            if (cantidadRestante == 0)
+                                break;
+
+                            int reducirEnEsteProducto = Math.Min(producto.Stock, cantidadRestante);
+                            producto.Stock -= reducirEnEsteProducto;
+                            cantidadRestante -= reducirEnEsteProducto;
+                            session.Update(producto);
+                        }
+
+                        // Guardar los pedidos en la base de datos
                         for (int i = 0; i < cantidad; i++)
                         {
                             Eskaera nuevaEskaera = new Eskaera
                             {
                                 EskaeraZenb = nuevoEskaeraZenb,
-                                Izena = nombreProducto,
+                                Izena = nombrePlato,  // Se usa el nombre del plato
                                 Prezioa = precio,
                                 MesaId = mesaId,
                                 Activo = true
@@ -76,12 +126,18 @@ namespace _2taldea
 
                     transaction.Commit();
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al guardar el pedido: {ex.Message}");
+                catch (Exception ex)
+                {
+                    transaction.Rollback(); // Revertir los cambios en caso de error
+                    Console.WriteLine($"Error al guardar el pedido y actualizar el stock: {ex.Message}");
+                    throw;
+                }
             }
         }
+
+
+
+
 
         // Método para desactivar los pedidos de una mesa
         public static void BorrarPedidos(ISessionFactory sessionFactory, int mesaId)
