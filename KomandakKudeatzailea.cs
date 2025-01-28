@@ -14,22 +14,20 @@ namespace _2taldea
             this.sessionFactory = sessionFactory;
         }
 
-        // Método para obtener todas las mesas de la base de datos
+        // Método para obtener todas las mesas
         public static List<Mahaia> ObtenerMesas(ISessionFactory sessionFactory)
         {
             try
             {
                 using (var session = sessionFactory.OpenSession())
                 {
-                    // Convertimos IList<Mahaia> a List<Mahaia> usando ToList()
-                    var mesas = session.CreateQuery("FROM Mahaia").List<Mahaia>().ToList();
-                    return mesas;
+                    return session.CreateQuery("FROM Mahaia").List<Mahaia>().ToList();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al obtener las mesas: {ex.Message}");
-                return new List<Mahaia>(); // Retornar lista vacía en caso de error
+                return new List<Mahaia>();
             }
         }
 
@@ -45,18 +43,15 @@ namespace _2taldea
             }
         }
 
-        // Método para guardar un pedido
-        public static void GuardarEskaera(ISessionFactory sessionFactory, int mesaId, Dictionary<string, (int cantidad, float precio)> resumen, int ultimoEskaeraZenb)
+        // Método para guardar un pedido y activarlo
+        public static void GuardarEskaera(ISessionFactory sessionFactory, int mesaId, Dictionary<string, (int cantidad, float precio)> resumen)
         {
             try
             {
                 using (ISession session = sessionFactory.OpenSession())
                 using (ITransaction transaction = session.BeginTransaction())
                 {
-                    if (ultimoEskaeraZenb == 0)
-                    {
-                        ultimoEskaeraZenb = MesaDetallesForm.ObtenerNuevoEskaeraZenb(session);
-                    }
+                    int nuevoEskaeraZenb = ObtenerNuevoEskaeraZenb(session);
 
                     foreach (var item in resumen)
                     {
@@ -68,7 +63,7 @@ namespace _2taldea
                         {
                             Eskaera nuevaEskaera = new Eskaera
                             {
-                                EskaeraZenb = ultimoEskaeraZenb,
+                                EskaeraZenb = nuevoEskaeraZenb,
                                 Izena = nombreProducto,
                                 Prezioa = precio,
                                 MesaId = mesaId,
@@ -88,8 +83,8 @@ namespace _2taldea
             }
         }
 
-        // Método para desactivar los pedidos
-        public static void BorrarPedidos(ISessionFactory sessionFactory, int mesaId, int ultimoEskaeraZenb)
+        // Método para desactivar los pedidos de una mesa
+        public static void BorrarPedidos(ISessionFactory sessionFactory, int mesaId)
         {
             try
             {
@@ -97,7 +92,7 @@ namespace _2taldea
                 using (ITransaction transaction = session.BeginTransaction())
                 {
                     var pedidosParaActualizar = session.QueryOver<Eskaera>()
-                                                        .Where(e => e.MesaId == mesaId && e.EskaeraZenb == ultimoEskaeraZenb)
+                                                        .Where(e => e.MesaId == mesaId && e.Activo == true)
                                                         .List();
 
                     foreach (var pedido in pedidosParaActualizar)
@@ -115,33 +110,10 @@ namespace _2taldea
             }
         }
 
-        // Método para cargar el último número de pedido
-        public int CargarPedidosGuardados(int mesaId)
-        {
-            try
-            {
-                using (ISession session = sessionFactory.OpenSession())
-                {
-                    var lastEskaera = session.QueryOver<Eskaera>()
-                                              .Where(e => e.MesaId == mesaId && e.Activo == true)
-                                              .OrderBy(e => e.EskaeraZenb).Desc
-                                              .Take(1)
-                                              .SingleOrDefault();
-
-                    return lastEskaera?.EskaeraZenb ?? 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al cargar los pedidos guardados: {ex.Message}");
-            }
-        }
-
         // Método para obtener el siguiente número de pedido
-        private int ObtenerNuevoEskaeraZenb(ISession session)
+        private static int ObtenerNuevoEskaeraZenb(ISession session)
         {
             var lastEskaera = session.QueryOver<Eskaera>()
-                                     .Where(e => e.Activo == true)
                                      .OrderBy(e => e.EskaeraZenb).Desc
                                      .Take(1)
                                      .SingleOrDefault();
@@ -149,35 +121,56 @@ namespace _2taldea
             return (lastEskaera?.EskaeraZenb ?? 0) + 1;
         }
 
-        // Método para cargar el resumen de un pedido
-        public static string CargarResumen(ISessionFactory sessionFactory, int mesaId, int ultimoEskaeraZenb)
+        // Método para cargar el resumen de un pedido activo
+        public static string CargarResumen(ISessionFactory sessionFactory, int mesaId)
         {
             try
             {
                 using (ISession session = sessionFactory.OpenSession())
                 {
-                    var eskaeras = session.QueryOver<Eskaera>()
-                                          .Where(e => e.MesaId == mesaId && e.EskaeraZenb == ultimoEskaeraZenb && e.Activo == true)
-                                          .List()
-                                          .ToList();
+                    var pedidosActivos = session.QueryOver<Eskaera>()
+                                                .Where(e => e.MesaId == mesaId && e.Activo == true)
+                                                .List();
 
-                    if (!eskaeras.Any())
+                    if (pedidosActivos == null || pedidosActivos.Count == 0)
                     {
-                        return "No hay pedidos actuales para esta mesa.";
+                        return "Ez dago komandarik mahai honetarako."; // No hay pedido activo
                     }
 
-                    string resumenTexto = "Resumen de Pedido:\n\n";
-                    foreach (var eskaera in eskaeras)
+                    // Crear diccionario con productos y cantidades
+                    Dictionary<string, (int cantidad, float precio)> resumen = new();
+
+                    foreach (var pedido in pedidosActivos)
                     {
-                        resumenTexto += $"- {eskaera.Izena}: {eskaera.Prezioa:C2}\n";
+                        if (resumen.ContainsKey(pedido.Izena))
+                        {
+                            resumen[pedido.Izena] = (resumen[pedido.Izena].cantidad + 1, pedido.Prezioa);
+                        }
+                        else
+                        {
+                            resumen[pedido.Izena] = (1, pedido.Prezioa);
+                        }
                     }
+
+                    // Crear resumen
+                    string resumenTexto = "Komandaren laburpena:\n\n";
+                    float total = 0;
+
+                    foreach (var item in resumen)
+                    {
+                        float subtotal = item.Value.cantidad * item.Value.precio;
+                        resumenTexto += $"- {item.Key}: {item.Value.cantidad} x {item.Value.precio:C2} = {subtotal:C2}\n";
+                        total += subtotal;
+                    }
+
+                    resumenTexto += $"\nTotala: {total:C2}";
 
                     return resumenTexto;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error al cargar el resumen: {ex.Message}");
+                throw new Exception($"Errorea laburpena kargatzean: {ex.Message}", ex);
             }
         }
     }

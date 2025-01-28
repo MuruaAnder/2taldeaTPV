@@ -89,7 +89,7 @@
             btnEditar.Name="btnEditar";
             btnEditar.Size=new Size(100, 50);
             btnEditar.TabIndex=8;
-            btnEditar.Text="Editar";
+            btnEditar.Text="Editatu";
             btnEditar.UseVisualStyleBackColor=false;
             btnEditar.Click+=btnEditar_Click;
             // 
@@ -116,6 +116,7 @@
             dataGridViewProduktuak.SelectionMode=DataGridViewSelectionMode.FullRowSelect;
             dataGridViewProduktuak.Size=new Size(1300, 600);
             dataGridViewProduktuak.TabIndex=9;
+            dataGridViewProduktuak.CellContentClick+=dataGridViewProduktuak_CellContentClick;
             // 
             // pictureBoxLogo
             // 

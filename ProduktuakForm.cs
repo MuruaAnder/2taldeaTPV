@@ -26,8 +26,8 @@ namespace _2taldea
         {
             try
             {
-                // Llamar al controlador para obtener los productos
-                var produktuak = ProduktuaKudeatzailea.ObtenerProduktuak(sessionFactory);
+                // Llamar al controlador para obtener los productos y las alertas
+                var (produktuak, produktuakStockBaxua) = ProduktuaKudeatzailea.ObtenerProduktuakConAlertas(sessionFactory);
 
                 if (produktuak == null || produktuak.Count == 0)
                 {
@@ -35,14 +35,36 @@ namespace _2taldea
                     return;
                 }
 
-                dataGridViewProduktuak.DataSource = produktuak; // Asignar productos al DataGridView
-                ConfigurarDataGridView(); // Configurar las columnas del DataGridView
+                // Asignar productos al DataGridView
+                dataGridViewProduktuak.DataSource = produktuak;
+                ConfigurarDataGridView();
+
+                // Resaltar productos con bajo stock en rojo
+                foreach (DataGridViewRow row in dataGridViewProduktuak.Rows)
+                {
+                    if (row.DataBoundItem is Produktua produktua && produktuakStockBaxua.Contains(produktua))
+                    {
+                        row.DefaultCellStyle.BackColor = System.Drawing.Color.Red;
+                        row.DefaultCellStyle.ForeColor = System.Drawing.Color.White; // Cambiar el texto a blanco para mejor visibilidad
+                    }
+                }
+
+                // Mostrar alerta si hay productos con stock insuficiente
+                if (produktuakStockBaxua.Count > 0)
+                {
+                    string mensaje = "Ez dago stock nahikoa:\n" +
+                                     string.Join("\n", produktuakStockBaxua.Select(p => p.Izena));
+                    MessageBox.Show(mensaje, "Abisua", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Produktuak kargatzean arazoak: {ex.Message}", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+
 
         private void ConfigurarDataGridView()
         {
@@ -147,6 +169,11 @@ namespace _2taldea
         }
 
         private void pictureBoxLogo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridViewProduktuak_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

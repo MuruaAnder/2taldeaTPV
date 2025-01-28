@@ -335,14 +335,14 @@ namespace _2taldea
 
         private void BtnGuardar_Click(object sender, EventArgs e)
         {
-            KomandakKudeatzailea.GuardarEskaera(sessionFactory, mesaId, resumen, ultimoEskaeraZenb);
+            KomandakKudeatzailea.GuardarEskaera(sessionFactory, mesaId, resumen);
 
             MessageBox.Show("Datuak ongi gorde dira", "Ongi!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void BtnBorrar_Click(object sender, EventArgs e)
         {
-            KomandakKudeatzailea.BorrarPedidos(sessionFactory, mesaId, ultimoEskaeraZenb);
+            KomandakKudeatzailea.BorrarPedidos(sessionFactory, mesaId);
 
             MessageBox.Show("Eskaria ezabatu da", "Ongi!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -350,9 +350,25 @@ namespace _2taldea
 
         private void BtnResumen_Click(object sender, EventArgs e)
         {
-            string resumenTexto = KomandakKudeatzailea.CargarResumen(sessionFactory, mesaId, ultimoEskaeraZenb);
-            MessageBox.Show(resumenTexto, "Laburpena", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                string resumenTexto = KomandakKudeatzailea.CargarResumen(sessionFactory, mesaId);
+
+                if (string.IsNullOrWhiteSpace(resumenTexto))
+                {
+                    MessageBox.Show("Ez dago informaziorik erakusteko.", "Laburpena", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(resumenTexto, "Laburpena", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Errorea laburpena kargatzean: {ex.Message}", "Errorea", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void bebidasTab_Click(object sender, EventArgs e)
         {

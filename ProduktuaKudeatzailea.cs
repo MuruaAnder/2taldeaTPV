@@ -125,6 +125,28 @@ namespace _2taldea
                 return new List<Produktua>(); 
             }
         }
+        public static (List<Produktua> produktuak, List<Produktua> produktuakStockBaxua) ObtenerProduktuakConAlertas(ISessionFactory sessionFactory)
+        {
+            try
+            {
+                using (var session = sessionFactory.OpenSession())
+                {
+                    // Obtener todos los productos
+                    var produktuak = session.CreateQuery("FROM Produktua").List<Produktua>().ToList();
+
+                    // Filtrar productos con stock insuficiente
+                    var produktuakStockBaxua = produktuak.Where(p => p.Stock < p.Min).ToList();
+
+                    return (produktuak, produktuakStockBaxua);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener los productos: {ex.Message}");
+                return (new List<Produktua>(), new List<Produktua>()); // Retornar listas vacías en caso de error
+            }
+        }
+
     }
 
 }

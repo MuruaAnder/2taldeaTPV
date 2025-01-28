@@ -42,7 +42,6 @@ namespace _2taldea
 
                 txtMessage.Enabled = true;
                 btnSend.Enabled = true;
-                MessageBox.Show("Conexión exitosa al servidor.", "Conexión", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
