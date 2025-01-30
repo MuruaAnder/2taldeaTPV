@@ -35,7 +35,6 @@ namespace _2taldea
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProduktuaEditForm));
             txtIzena=new TextBox();
             txtStock=new TextBox();
             txtPrezioa=new TextBox();
@@ -194,7 +193,7 @@ namespace _2taldea
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=(Image)resources.GetObject("pictureBoxLogo.Image");
+            pictureBoxLogo.Image=Properties.Resources.logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);

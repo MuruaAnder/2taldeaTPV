@@ -29,7 +29,6 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProduktuaAddForm));
             txtIzena=new TextBox();
             txtStock=new TextBox();
             txtPrezioa=new TextBox();
@@ -173,7 +172,7 @@
             // 
             // pictureBox
             // 
-            pictureBox.Image=(Image)resources.GetObject("pictureBox.Image");
+            pictureBox.Image=Properties.Resources.logo;
             pictureBox.Location=new Point(50, 30);
             pictureBox.Name="pictureBox";
             pictureBox.Size=new Size(250, 200);

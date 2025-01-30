@@ -21,7 +21,6 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EskaerakForm));
             labelIzena=new Label();
             pictureBoxLogo=new PictureBox();
             btnAtzera=new Button();
@@ -41,7 +40,7 @@
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=(Image)resources.GetObject("pictureBoxLogo.Image");
+            pictureBoxLogo.Image=Properties.Resources.logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);
@@ -74,7 +73,7 @@
             labelMahaiak.TabIndex=5;
             labelMahaiak.Text="Eskaerak";
             // 
-            // EskaerakForm
+            // EskaerakForm2
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
@@ -85,7 +84,7 @@
             Controls.Add(pictureBoxLogo);
             Controls.Add(btnAtzera);
             FormBorderStyle=FormBorderStyle.None;
-            Name="EskaerakForm";
+            Name="EskaerakForm2";
             Text="Eskaerak";
             WindowState=FormWindowState.Maximized;
             Load+=EskaerakForm_Load;

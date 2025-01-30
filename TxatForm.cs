@@ -31,7 +31,7 @@ namespace _2taldea
         {
             try
             {
-                client = new TcpClient("192.168.115.153", 5555);
+                client = new TcpClient("192.168.115.158", 5555);
                 NetworkStream stream = client.GetStream();
                 reader = new StreamReader(stream);
                 writer = new StreamWriter(stream) { AutoFlush = true };

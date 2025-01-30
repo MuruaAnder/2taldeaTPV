@@ -54,6 +54,9 @@ namespace _2taldea
         {
         }
 
+        private void pictureBoxLogo_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

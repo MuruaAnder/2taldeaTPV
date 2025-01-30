@@ -17,7 +17,6 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProduktuakForm));
             labelIzena=new Label();
             labelProduktuak=new Label();
             btnAtzera=new Button();
@@ -120,7 +119,7 @@
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=(Image)resources.GetObject("pictureBoxLogo.Image");
+            pictureBoxLogo.Image=Properties.Resources.logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);

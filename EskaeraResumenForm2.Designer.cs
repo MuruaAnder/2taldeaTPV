@@ -23,7 +23,6 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EskaeraResumenForm));
             labelMesa=new Label();
             labelNombreUsuario=new Label();
             labelLaburpena=new Label();
@@ -102,7 +101,7 @@
             btnAtzera.UseVisualStyleBackColor=false;
             btnAtzera.Click+=BtnAtzera_Click;
             // 
-            // btnEskaeraSortu
+            // btnEskaeraSortu2
             // 
             btnEskaeraSortu2.BackColor=Color.Gray;
             btnEskaeraSortu2.FlatStyle=FlatStyle.Flat;
@@ -118,7 +117,7 @@
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=(Image)resources.GetObject("pictureBoxLogo.Image");
+            pictureBoxLogo.Image=Properties.Resources.logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);
@@ -126,7 +125,7 @@
             pictureBoxLogo.TabIndex=2;
             pictureBoxLogo.TabStop=false;
             // 
-            // EskaeraResumenForm
+            // EskaeraResumenForm2
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
@@ -141,7 +140,7 @@
             Controls.Add(btnEskaeraSortu2);
             Controls.Add(pictureBoxLogo);
             FormBorderStyle=FormBorderStyle.None;
-            Name="EskaeraResumenForm";
+            Name="EskaeraResumenForm2";
             WindowState=FormWindowState.Maximized;
             Load+=EskaeraResumenForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();

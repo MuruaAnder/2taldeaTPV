@@ -21,7 +21,6 @@ namespace _2taldea
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenuForm));
             btnProduktuak=new Button();
             btnKomandak=new Button();
             btnEskaerak=new Button();
@@ -114,7 +113,7 @@ namespace _2taldea
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=(Image)resources.GetObject("pictureBoxLogo.Image");
+            pictureBoxLogo.Image=Properties.Resources.logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);

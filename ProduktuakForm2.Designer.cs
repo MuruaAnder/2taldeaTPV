@@ -17,7 +17,6 @@
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProduktuakForm));
             labelIzena=new Label();
             labelProduktuak=new Label();
             btnAtzera=new Button();
@@ -119,7 +118,6 @@
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=(Image)resources.GetObject("pictureBoxLogo.Image");
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);
@@ -128,7 +126,7 @@
             pictureBoxLogo.TabStop=false;
             pictureBoxLogo.Click+=pictureBoxLogo_Click;
             // 
-            // ProduktuakForm
+            // ProduktuakForm2
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
@@ -143,7 +141,7 @@
             Controls.Add(labelProduktuak);
             Controls.Add(labelIzena);
             FormBorderStyle=FormBorderStyle.None;
-            Name="ProduktuakForm";
+            Name="ProduktuakForm2";
             Text="Produktuak";
             WindowState=FormWindowState.Maximized;
             Load+=ProduktuakForm_Load;
