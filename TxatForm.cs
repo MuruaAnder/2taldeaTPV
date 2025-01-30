@@ -108,5 +108,20 @@ namespace _2taldea
                 // Ignorar posibles excepciones al cerrar
             }
         }
+
+        private void TxatForm_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelMenua_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtMessage_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
