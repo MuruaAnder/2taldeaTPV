@@ -1,6 +1,10 @@
-﻿namespace _2taldea
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace _2taldea
 {
-    partial class Form1
+    partial class Form1 : Form
     {
         private TextBox txtName;
         private TextBox txtPassword;
@@ -11,6 +15,8 @@
 
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             txtName=new TextBox();
             txtPassword=new TextBox();
             btnLogin=new Button();
@@ -39,7 +45,7 @@
             // 
             // btnLogin
             // 
-            btnLogin.BackColor=Color.SaddleBrown;
+            btnLogin.BackColor=Color.Black;
             btnLogin.FlatStyle=FlatStyle.Popup;
             btnLogin.ForeColor=SystemColors.ButtonHighlight;
             btnLogin.Location=new Point(284, 420);
@@ -52,16 +58,19 @@
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=Properties.Resources.logo;
+            pictureBoxLogo.Image=Properties.Resources.thebulls_logo;
             pictureBoxLogo.Location=new Point(284, 50);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);
             pictureBoxLogo.SizeMode=PictureBoxSizeMode.Zoom;
             pictureBoxLogo.TabIndex=0;
             pictureBoxLogo.TabStop=false;
+            pictureBoxLogo.BackColor = Color.Transparent;
+
             // 
             // lblName
             // 
+            lblName.BackColor=Color.Transparent;
             lblName.Font=new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblName.Location=new Point(284, 280);
             lblName.Name="lblName";
@@ -72,6 +81,7 @@
             // 
             // lblPassword
             // 
+            lblPassword.BackColor=Color.Transparent;
             lblPassword.Font=new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point);
             lblPassword.Location=new Point(284, 340);
             lblPassword.Name="lblPassword";
@@ -84,7 +94,7 @@
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
-            BackColor=Color.BurlyWood;
+            BackgroundImageLayout=ImageLayout.Stretch;
             ClientSize=new Size(784, 561);
             Controls.Add(lblName);
             Controls.Add(txtName);
@@ -100,6 +110,12 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
+            lblName.BackColor = Color.Transparent;
+            lblPassword.BackColor = Color.Transparent;
+       
+
+
+
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -113,9 +129,6 @@
             lblPassword.Location = new Point(centerX, 550);
             txtPassword.Location = new Point(centerX, 580);
             btnLogin.Location = new Point(centerX, 660);
-
-
-
         }
     }
 }

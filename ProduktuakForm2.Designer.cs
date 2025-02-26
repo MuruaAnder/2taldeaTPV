@@ -17,6 +17,8 @@
 
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             labelIzena=new Label();
             labelProduktuak=new Label();
             btnAtzera=new Button();
@@ -32,6 +34,7 @@
             // labelIzena
             // 
             labelIzena.AutoSize=true;
+            labelIzena.BackColor=Color.Transparent;
             labelIzena.Font=new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             labelIzena.Location=new Point(1716, 50);
             labelIzena.Name="labelIzena";
@@ -42,6 +45,7 @@
             // labelProduktuak
             // 
             labelProduktuak.AutoSize=true;
+            labelProduktuak.BackColor=Color.Transparent;
             labelProduktuak.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
             labelProduktuak.ForeColor=Color.LightSlateGray;
             labelProduktuak.Location=new Point(852, 50);
@@ -118,6 +122,8 @@
             // 
             // pictureBoxLogo
             // 
+            pictureBoxLogo.BackColor=Color.Transparent;
+            pictureBoxLogo.Image=Properties.Resources.thebulls_logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);
@@ -131,6 +137,7 @@
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
             BackColor=Color.BurlyWood;
+            BackgroundImageLayout=ImageLayout.Stretch;
             ClientSize=new Size(1835, 584);
             Controls.Add(pictureBoxLogo);
             Controls.Add(dataGridViewProduktuak);
@@ -149,6 +156,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
+          
         }
 
         #endregion

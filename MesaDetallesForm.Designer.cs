@@ -20,6 +20,8 @@
 
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             mesaLabel=new Label();
             tabControl=new TabControl();
             bebidasTab=new TabPage();
@@ -96,6 +98,7 @@
             tabControl.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
+          
         }
     }
 }

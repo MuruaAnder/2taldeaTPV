@@ -21,6 +21,8 @@
 
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             labelIzena=new Label();
             pictureBoxLogo=new PictureBox();
             btnAtzera=new Button();
@@ -31,6 +33,7 @@
             // labelIzena
             // 
             labelIzena.AutoSize=true;
+            labelIzena.BackColor=Color.Transparent;
             labelIzena.Font=new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             labelIzena.Location=new Point(1716, 50);
             labelIzena.Name="labelIzena";
@@ -40,7 +43,8 @@
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=Properties.Resources.logo;
+            pictureBoxLogo.BackColor=Color.Transparent;
+            pictureBoxLogo.Image=Properties.Resources.thebulls_logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);
@@ -65,6 +69,7 @@
             // labelMahaiak
             // 
             labelMahaiak.AutoSize=true;
+            labelMahaiak.BackColor=Color.Transparent;
             labelMahaiak.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
             labelMahaiak.ForeColor=Color.LightSlateGray;
             labelMahaiak.Location=new Point(894, 50);
@@ -78,6 +83,7 @@
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
             BackColor=Color.BurlyWood;
+            BackgroundImageLayout=ImageLayout.Stretch;
             ClientSize=new Size(1835, 984);
             Controls.Add(labelMahaiak);
             Controls.Add(labelIzena);
@@ -91,6 +97,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
+        
         }
 
         #endregion

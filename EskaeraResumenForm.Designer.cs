@@ -23,6 +23,8 @@
 
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             labelMesa=new Label();
             labelNombreUsuario=new Label();
             labelLaburpena=new Label();
@@ -57,6 +59,7 @@
             // labelLaburpena
             // 
             labelLaburpena.AutoSize=true;
+            labelLaburpena.BackColor=Color.Transparent;
             labelLaburpena.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
             labelLaburpena.ForeColor=Color.LightSlateGray;
             labelLaburpena.Location=new Point(894, 50);
@@ -80,6 +83,7 @@
             // labelPrezioa
             // 
             labelPrezioa.AutoSize=true;
+            labelPrezioa.BackColor=Color.Transparent;
             labelPrezioa.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
             labelPrezioa.Location=new Point(894, 900);
             labelPrezioa.Name="labelPrezioa";
@@ -117,7 +121,8 @@
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=Properties.Resources.logo;
+            pictureBoxLogo.BackColor=Color.Transparent;
+            pictureBoxLogo.Image=Properties.Resources.thebulls_logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);
@@ -130,6 +135,7 @@
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
             BackColor=Color.BurlyWood;
+            BackgroundImageLayout=ImageLayout.Stretch;
             ClientSize=new Size(1644, 1062);
             Controls.Add(labelMesa);
             Controls.Add(labelNombreUsuario);
@@ -146,6 +152,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
+      
         }
     }
 }

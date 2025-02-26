@@ -21,6 +21,8 @@ namespace _2taldea
 
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             btnProduktuak=new Button();
             btnKomandak=new Button();
             btnEskaerak=new Button();
@@ -90,6 +92,7 @@ namespace _2taldea
             // labelIzena
             // 
             labelIzena.AutoSize=true;
+            labelIzena.BackColor=Color.Transparent;
             labelIzena.Font=new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             labelIzena.Location=new Point(1716, 50);
             labelIzena.Name="labelIzena";
@@ -102,6 +105,7 @@ namespace _2taldea
             // labelMenua
             // 
             labelMenua.AutoSize=true;
+            labelMenua.BackColor=Color.Transparent;
             labelMenua.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
             labelMenua.ForeColor=Color.LightSlateGray;
             labelMenua.Location=new Point(894, 50);
@@ -112,7 +116,8 @@ namespace _2taldea
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=Properties.Resources.logo;
+            pictureBoxLogo.BackColor=Color.Transparent;
+            pictureBoxLogo.Image=Properties.Resources.thebulls_logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);
@@ -126,6 +131,7 @@ namespace _2taldea
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
             BackColor=Color.BurlyWood;
+            BackgroundImageLayout=ImageLayout.Stretch;
             ClientSize=new Size(1920, 1080);
             Controls.Add(pictureBoxLogo);
             Controls.Add(labelMenua);
@@ -142,6 +148,7 @@ namespace _2taldea
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
+   
         }
 
         #endregion

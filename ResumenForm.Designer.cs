@@ -30,6 +30,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             flowLayoutPanelPedidos=new FlowLayoutPanel();
             SuspendLayout();
             // 
@@ -52,6 +54,7 @@
             Text="ResumenForm";
             Load+=ResumenForm_Load;
             ResumeLayout(false);
+        
         }
 
         #endregion

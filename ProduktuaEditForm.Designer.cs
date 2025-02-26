@@ -35,6 +35,8 @@ namespace _2taldea
 
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             txtIzena=new TextBox();
             txtStock=new TextBox();
             txtPrezioa=new TextBox();
@@ -133,6 +135,7 @@ namespace _2taldea
             // labelIzena
             // 
             labelIzena.AutoSize=true;
+            labelIzena.BackColor=Color.Transparent;
             labelIzena.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
             labelIzena.ForeColor=Color.Gray;
             labelIzena.Location=new Point(850, 50);
@@ -144,6 +147,7 @@ namespace _2taldea
             // labelProduktuak
             // 
             labelProduktuak.AutoSize=true;
+            labelProduktuak.BackColor=Color.Transparent;
             labelProduktuak.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelProduktuak.Location=new Point(600, 400);
             labelProduktuak.Name="labelProduktuak";
@@ -154,6 +158,7 @@ namespace _2taldea
             // labelStock
             // 
             labelStock.AutoSize=true;
+            labelStock.BackColor=Color.Transparent;
             labelStock.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelStock.Location=new Point(600, 450);
             labelStock.Name="labelStock";
@@ -164,6 +169,7 @@ namespace _2taldea
             // labelPrezioa
             // 
             labelPrezioa.AutoSize=true;
+            labelPrezioa.BackColor=Color.Transparent;
             labelPrezioa.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelPrezioa.Location=new Point(600, 500);
             labelPrezioa.Name="labelPrezioa";
@@ -174,6 +180,7 @@ namespace _2taldea
             // labelMax
             // 
             labelMax.AutoSize=true;
+            labelMax.BackColor=Color.Transparent;
             labelMax.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelMax.Location=new Point(600, 550);
             labelMax.Name="labelMax";
@@ -184,6 +191,7 @@ namespace _2taldea
             // labelMin
             // 
             labelMin.AutoSize=true;
+            labelMin.BackColor=Color.Transparent;
             labelMin.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelMin.Location=new Point(600, 600);
             labelMin.Name="labelMin";
@@ -193,7 +201,8 @@ namespace _2taldea
             // 
             // pictureBoxLogo
             // 
-            pictureBoxLogo.Image=Properties.Resources.logo;
+            pictureBoxLogo.BackColor=Color.Transparent;
+            pictureBoxLogo.Image=Properties.Resources.thebulls_logo;
             pictureBoxLogo.Location=new Point(50, 30);
             pictureBoxLogo.Name="pictureBoxLogo";
             pictureBoxLogo.Size=new Size(250, 200);
@@ -204,6 +213,7 @@ namespace _2taldea
             // ProduktuaEditForm
             // 
             BackColor=Color.BurlyWood;
+            BackgroundImageLayout=ImageLayout.Stretch;
             ClientSize=new Size(1920, 1061);
             Controls.Add(pictureBoxLogo);
             Controls.Add(labelIzena);
@@ -228,6 +238,7 @@ namespace _2taldea
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
+     
         }
     }
 }

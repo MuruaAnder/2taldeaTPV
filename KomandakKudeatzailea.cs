@@ -97,6 +97,7 @@ namespace _2taldea
 
                         // Reducir el stock proporcionalmente en cada producto
                         int cantidadRestante = cantidad;
+                        
                         foreach (var producto in productos)
                         {
                             if (cantidadRestante == 0)

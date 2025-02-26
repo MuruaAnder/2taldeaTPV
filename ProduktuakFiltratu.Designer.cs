@@ -17,6 +17,8 @@
 
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             this.btnPrezioa = new Button();
             this.btnStocka = new Button();
             this.SuspendLayout();
@@ -64,6 +66,7 @@
             this.Name = "ProduktuakFiltratu";
             this.Text = "Filtratu Produktuak";
             this.ResumeLayout(false);
+           
         }
     }
 }

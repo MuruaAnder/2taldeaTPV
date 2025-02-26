@@ -29,6 +29,8 @@
 
         private void InitializeComponent()
         {
+            BackgroundImage = Image.FromFile("background.png");
+            BackgroundImageLayout = ImageLayout.Stretch;
             txtIzena=new TextBox();
             txtStock=new TextBox();
             txtPrezioa=new TextBox();
@@ -112,6 +114,7 @@
             // labelTitle
             // 
             labelTitle.AutoSize=true;
+            labelTitle.BackColor=Color.Transparent;
             labelTitle.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
             labelTitle.ForeColor=Color.Gray;
             labelTitle.Location=new Point(850, 50);
@@ -123,6 +126,7 @@
             // labelIzena
             // 
             labelIzena.AutoSize=true;
+            labelIzena.BackColor=Color.Transparent;
             labelIzena.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelIzena.Location=new Point(600, 400);
             labelIzena.Name="labelIzena";
@@ -133,6 +137,7 @@
             // labelStock
             // 
             labelStock.AutoSize=true;
+            labelStock.BackColor=Color.Transparent;
             labelStock.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelStock.Location=new Point(600, 450);
             labelStock.Name="labelStock";
@@ -143,6 +148,7 @@
             // labelMax
             // 
             labelMax.AutoSize=true;
+            labelMax.BackColor=Color.Transparent;
             labelMax.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelMax.Location=new Point(600, 550);
             labelMax.Name="labelMax";
@@ -153,6 +159,7 @@
             // labelMin
             // 
             labelMin.AutoSize=true;
+            labelMin.BackColor=Color.Transparent;
             labelMin.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelMin.Location=new Point(600, 600);
             labelMin.Name="labelMin";
@@ -163,6 +170,7 @@
             // labelPrezioa
             // 
             labelPrezioa.AutoSize=true;
+            labelPrezioa.BackColor=Color.Transparent;
             labelPrezioa.Font=new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
             labelPrezioa.Location=new Point(600, 500);
             labelPrezioa.Name="labelPrezioa";
@@ -172,7 +180,8 @@
             // 
             // pictureBox
             // 
-            pictureBox.Image=Properties.Resources.logo;
+            pictureBox.BackColor=Color.Transparent;
+            pictureBox.Image=Properties.Resources.thebulls_logo;
             pictureBox.Location=new Point(50, 30);
             pictureBox.Name="pictureBox";
             pictureBox.Size=new Size(250, 200);
@@ -185,6 +194,7 @@
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
             BackColor=Color.BurlyWood;
+            BackgroundImageLayout=ImageLayout.Stretch;
             ClientSize=new Size(1920, 1061);
             Controls.Add(labelTitle);
             Controls.Add(labelIzena);
@@ -208,6 +218,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
+         
         }
     }
 }
