@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NHibernate;
@@ -11,62 +12,58 @@ namespace _2taldea
     {
         private int mesaId;
         private ISessionFactory sessionFactory;
-        private Dictionary<string, (int cantidad, float precio)> resumen = new Dictionary<string, (int cantidad, float precio)>();
+        private Dictionary<string, (int cantidad, float precio, string nota)> resumen = new Dictionary<string, (int, float, string)>();
         private int ultimoEskaeraZenb;
 
         public MesaDetallesForm(int mesaId, ISessionFactory sessionFactory)
         {
             InitializeComponent();
             this.mesaId = mesaId;
-
-            if (mesaId <= 0)
-            {
-                throw new ArgumentException("El ID de la mesa debe ser mayor a 0.");
-            }
             this.sessionFactory = sessionFactory;
             this.mesaLabel.Text = $"Mahaia: {mesaId}";
-            this.tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
+
+            // Configura el TabControl existente
+            tabControl.SelectedIndexChanged += TabControl_SelectedIndexChanged;
+
+            // Carga los platos en la primera pestaña (Edaria)
             CargarPlatos("Edaria", tabControl.TabPages[0]);
             CargarPedidosGuardados();
         }
 
         private void MesaDetallesForm_Load(object sender, EventArgs e)
         {
-            // Crear el TabControl si no existe
             TabControl tabControl = new TabControl
             {
                 Dock = DockStyle.Fill
             };
             this.Controls.Add(tabControl);
 
-            // Crear las pestañas
+            // Crear las pestañas con la nueva categoría "Postrea"
             TabPage bebidasTab = new TabPage("Edaria");
             TabPage primerPlatoTab = new TabPage("Lehenengo platera");
             TabPage segundoPlatoTab = new TabPage("Bigarren platera");
+            TabPage postreTab = new TabPage("Postrea"); // Nueva pestaña
 
-            tabControl.TabPages.AddRange(new[] { bebidasTab, primerPlatoTab, segundoPlatoTab });
+            tabControl.TabPages.AddRange(new[] { bebidasTab, primerPlatoTab, segundoPlatoTab, postreTab });
 
-            // Crear el Label para mostrar el número de la mesa
             Label mesaLabel = new Label
             {
                 Text = $"Mahaia: {mesaId}",
                 AutoSize = true,
                 Font = new Font("Segoe UI", 14, FontStyle.Bold),
                 ForeColor = Color.DarkSlateGray,
-                Location = new Point(this.ClientSize.Width - 150, 10), // Ajusta la ubicación
-                Anchor = AnchorStyles.Top | AnchorStyles.Right // Fijar el Label a la derecha
+                Location = new Point(this.ClientSize.Width - 150, 10),
+                Anchor = AnchorStyles.Top | AnchorStyles.Right
             };
 
-            // Asegurarse de que solo se agregue una vez
             if (!this.Controls.Contains(mesaLabel))
             {
                 this.Controls.Add(mesaLabel);
             }
 
-            // Cargar los platos en la primera pestaña
-            CargarPlatos("Edaria", bebidasTab); // Se carga de inmediato
+            // Cargar contenido inicial
+            CargarPlatos("Edaria", bebidasTab);
         }
-
 
         private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -76,10 +73,8 @@ namespace _2taldea
                 TabPage selectedTab = tabControl.SelectedTab;
                 string selectedCategory = selectedTab.Text;
 
-                // Evitar cargar los productos más de una vez
                 if (selectedTab.Controls.Count == 0)
                 {
-                    // Usamos BeginInvoke para asegurarnos de que la carga de los platos se realice correctamente después del cambio de pestaña
                     selectedTab.BeginInvoke((Action)(() =>
                     {
                         CargarPlatos(selectedCategory, selectedTab);
@@ -99,126 +94,250 @@ namespace _2taldea
                                         .Where(p => p.Kategoria == kategoria)
                                         .List();
 
-                    // Panel principal con diseño vertical
-                    TableLayoutPanel mainPanel = new TableLayoutPanel
+                    Panel mainPanel = new Panel
                     {
                         Dock = DockStyle.Fill,
-                        ColumnCount = 1,
-                        AutoScroll = true,
-                        BackColor = Color.BurlyWood, // Fondo de la pestaña
-                        Padding = new Padding(0, 100, 0, 0) // Aumentar margen superior para mover todo más abajo
+                        BackgroundImage = Image.FromFile("background.png"),
+                        BackgroundImageLayout = ImageLayout.Stretch
                     };
 
-                    // Panel para organizar los platos en filas y columnas
-                    TableLayoutPanel platosPanel = new TableLayoutPanel
+                    Panel platosPanel = new Panel
+                    {
+                        Dock = DockStyle.Fill,
+                        AutoScroll = true,
+                        BackColor = Color.Transparent
+                    };
+
+                    TableLayoutPanel tablaPlatos = new TableLayoutPanel
+                    {
+                        AutoSize = true,
+                        ColumnCount = 3,
+                        Padding = new Padding(0),
+                        Margin = new Padding(0),
+                        BackColor = Color.Transparent
+                    };
+
+                    for (int i = 0; i < tablaPlatos.ColumnCount; i++)
+                        tablaPlatos.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3F));
+
+                    FlowLayoutPanel contenedorCentrado = new FlowLayoutPanel
                     {
                         Dock = DockStyle.Top,
-                        ColumnCount = 2,
                         AutoSize = true,
-                        Margin = new Padding(0),
-                        Padding = new Padding(10),
-                        Anchor = AnchorStyles.None
+                        FlowDirection = FlowDirection.LeftToRight,
+                        Padding = new Padding(490, 0, 0, 0),
+                        BackColor = Color.Transparent
                     };
 
-                    for (int i = 0; i < platosPanel.ColumnCount; i++)
-                        platosPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                    contenedorCentrado.Controls.Add(tablaPlatos);
+                    platosPanel.Controls.Add(contenedorCentrado);
 
-                    // Crear los paneles de los productos
+                    int row = 0, col = 0;
+
                     foreach (var plato in platos)
                     {
                         Panel productoPanel = new Panel
                         {
-                            Width = 225, // Aumentar el tamaño del cuadro
-                            Height = 225, // Aumentar el tamaño del cuadro
-                            Margin = new Padding(40, 20, 40, 20),
-                            BorderStyle = BorderStyle.FixedSingle,
-                            BackColor = Color.SaddleBrown
+                            Width = 280,
+                            Height = 350,
+                            Margin = new Padding(10),
+                            BackColor = Color.White,
+                            BorderStyle = BorderStyle.None,
+                            Cursor = Cursors.Hand
                         };
 
+                        productoPanel.MouseEnter += (s, ev) => productoPanel.BackColor = Color.FromArgb(240, 240, 240);
+                        productoPanel.MouseLeave += (s, ev) => productoPanel.BackColor = Color.White;
+
+                        TableLayoutPanel layout = new TableLayoutPanel
+                        {
+                            ColumnCount = 1,
+                            RowCount = 5,
+                            Dock = DockStyle.Fill,
+                            Padding = new Padding(15)
+                        };
+
+                        layout.RowStyles.Add(new RowStyle(SizeType.Percent, 40));
+                        layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                        layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                        layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                        layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+                        // PictureBox para la imagen
+                        PictureBox pictureBox = new PictureBox
+                        {
+                            Dock = DockStyle.Fill,
+                            SizeMode = PictureBoxSizeMode.StretchImage,
+                            BackColor = Color.FromArgb(220, 220, 220)
+                        };
+
+                        if (!string.IsNullOrEmpty(plato.Foto))
+                        {
+                            try
+                            {
+                                // Normalizar el nombre del archivo
+                                string normalizedFilename = plato.Foto.Trim().ToLower();
+                                string imagePath = Path.Combine(@"C:\Info ez nub\TPV3taldeaErronka\TPV3taldeaErronka\2taldea\bin\Debug\Images", normalizedFilename);
+
+                                if (File.Exists(imagePath))
+                                {
+                                    pictureBox.Image = Image.FromFile(imagePath);
+                                }
+                                else
+                                {
+                                    MessageBox.Show($"Archivo no encontrado: {imagePath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"Error al cargar la imagen: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+
+                        layout.Controls.Add(pictureBox, 0, 0);
+
+                        // Nombre del plato
                         Label lblNombre = new Label
                         {
                             Text = plato.Izena,
                             AutoSize = true,
-                            Font = new Font("Segoe UI", 12, FontStyle.Bold),
-                            ForeColor = Color.White,
-                            Location = new Point(10, 10)
+                            Font = new Font("Segoe UI", 14, FontStyle.Bold),
+                            ForeColor = Color.FromArgb(50, 50, 50),
+                            Dock = DockStyle.Top
                         };
-                        productoPanel.Controls.Add(lblNombre);
+                        layout.Controls.Add(lblNombre, 0, 1);
 
+                        // Precio
                         Label lblPrecio = new Label
                         {
-                            Text = $"Prezioa: {plato.Prezioa:C2}",
+                            Text = $"{plato.Prezioa:C2}",
                             AutoSize = true,
-                            ForeColor = Color.White,
-                            Location = new Point(10, 40)
+                            Font = new Font("Segoe UI", 12),
+                            ForeColor = Color.FromArgb(0, 150, 136),
+                            Dock = DockStyle.Top
                         };
-                        productoPanel.Controls.Add(lblPrecio);
+                        layout.Controls.Add(lblPrecio, 0, 2);
 
-                        Button btnPlus = new Button
+                        // Controles de cantidad
+                        TableLayoutPanel controles = new TableLayoutPanel
                         {
-                            Text = "+",
-                            Width = 50,
-                            Height = 40,
-                            Location = new Point(10, 70)
+                            ColumnCount = 3,
+                            RowCount = 1,
+                            AutoSize = true
                         };
-                        productoPanel.Controls.Add(btnPlus);
+                        controles.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50));
+                        controles.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 80));
+                        controles.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 50));
 
                         Button btnMinus = new Button
                         {
                             Text = "-",
-                            Width = 50,
-                            Height = 40,
-                            Location = new Point(70, 70)
+                            Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                            BackColor = Color.FromArgb(255, 61, 53),
+                            ForeColor = Color.White,
+                            FlatStyle = FlatStyle.Flat,
+                            Size = new Size(50, 40)
                         };
-                        productoPanel.Controls.Add(btnMinus);
 
                         Label lblCantidad = new Label
                         {
                             Text = "0",
-                            Width = 50,
                             TextAlign = ContentAlignment.MiddleCenter,
-                            Location = new Point(130, 70),
-                            ForeColor = Color.White
+                            Font = new Font("Segoe UI", 14),
+                            ForeColor = Color.FromArgb(50, 50, 50),
+                            Size = new Size(80, 40)
                         };
-                        productoPanel.Controls.Add(lblCantidad);
 
-                        btnPlus.Click += (s, e) =>
+                        Button btnPlus = new Button
                         {
-                            int cantidad = int.Parse(lblCantidad.Text);
-                            cantidad++;
-                            lblCantidad.Text = cantidad.ToString();
-
-                            if (!resumen.ContainsKey(plato.Izena))
-                                resumen[plato.Izena] = (0, plato.Prezioa);
-
-                            resumen[plato.Izena] = (cantidad, plato.Prezioa);
+                            Text = "+",
+                            Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                            BackColor = Color.FromArgb(0, 150, 136),
+                            ForeColor = Color.White,
+                            FlatStyle = FlatStyle.Flat,
+                            Size = new Size(50, 40)
                         };
 
-                        btnMinus.Click += (s, e) =>
+                        controles.Controls.Add(btnMinus, 0, 0);
+                        controles.Controls.Add(lblCantidad, 1, 0);
+                        controles.Controls.Add(btnPlus, 2, 0);
+                        layout.Controls.Add(controles, 0, 3);
+
+                        // Botón de ingredientes
+                        Button btnIngredientes = new Button
+                        {
+                            Text = "Osagaiak",
+                            Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                            BackColor = Color.SaddleBrown,
+                            ForeColor = Color.White,
+                            FlatStyle = FlatStyle.Flat,
+                            Size = new Size(250, 40),
+                            Margin = new Padding(0, 15, 0, 0)
+                        };
+                        layout.Controls.Add(btnIngredientes, 0, 4);
+
+                        // Eventos
+                        btnPlus.Click += (s, ev) =>
+                        {
+                            int cantidad = int.Parse(lblCantidad.Text) + 1;
+                            lblCantidad.Text = cantidad.ToString();
+                            if (!resumen.ContainsKey(plato.Izena))
+                                resumen[plato.Izena] = (0, plato.Prezioa, "");
+                            if (cantidad == 1)
+                            {
+                                string nota = Microsoft.VisualBasic.Interaction.InputBox(
+                                    $"Oharra {plato.Izena}:",
+                                    "Oharra gehitu",
+                                    "");
+                                resumen[plato.Izena] = (cantidad, plato.Prezioa, nota);
+                            }
+                            else
+                            {
+                                resumen[plato.Izena] = (cantidad, plato.Prezioa, resumen[plato.Izena].nota);
+                            }
+                        };
+
+                        btnMinus.Click += (s, ev) =>
                         {
                             int cantidad = int.Parse(lblCantidad.Text);
                             if (cantidad > 0)
                             {
                                 cantidad--;
                                 lblCantidad.Text = cantidad.ToString();
-
-                                if (resumen.ContainsKey(plato.Izena))
-                                    resumen[plato.Izena] = (cantidad, plato.Prezioa);
+                                if (cantidad == 0)
+                                    resumen[plato.Izena] = (0, plato.Prezioa, "");
+                                else
+                                    resumen[plato.Izena] = (cantidad, plato.Prezioa, resumen[plato.Izena].nota);
                             }
                         };
 
-                        platosPanel.Controls.Add(productoPanel);
+                        btnIngredientes.Click += (s, ev) => MostrarIngredientes(plato);
+
+                        productoPanel.Controls.Add(layout);
+                        tablaPlatos.Controls.Add(productoPanel, col, row);
+                        col++;
+                        if (col >= 3)
+                        {
+                            col = 0;
+                            row++;
+                        }
                     }
 
                     // Panel de botones inferior
-                    FlowLayoutPanel botonesPanel = new FlowLayoutPanel
+                    Panel botonesPanel = new Panel
                     {
                         Dock = DockStyle.Bottom,
+                        Height = 100,
+                        BackColor = Color.Transparent
+                    };
+
+                    FlowLayoutPanel flowBotones = new FlowLayoutPanel
+                    {
+                        Dock = DockStyle.Fill,
                         FlowDirection = FlowDirection.LeftToRight,
                         AutoSize = true,
-                        Padding = new Padding(0, 40, 0, 20), // Aumentar margen superior para bajar los botones
-                        BackColor = Color.BurlyWood,
-                        Anchor = AnchorStyles.None
+                        Padding = new Padding(490, 0, 0, 0),
+                        BackColor = Color.Transparent
                     };
 
                     Button btnGuardar = new Button
@@ -231,6 +350,7 @@ namespace _2taldea
                         Height = 50,
                         Margin = new Padding(20, 0, 20, 0)
                     };
+
                     btnGuardar.Click += BtnGuardar_Click;
 
                     Button btnResumen = new Button
@@ -243,6 +363,7 @@ namespace _2taldea
                         Height = 50,
                         Margin = new Padding(20, 0, 20, 0)
                     };
+
                     btnResumen.Click += BtnResumen_Click;
 
                     Button btnBorrar = new Button
@@ -255,6 +376,7 @@ namespace _2taldea
                         Height = 50,
                         Margin = new Padding(20, 0, 20, 0)
                     };
+
                     btnBorrar.Click += BtnBorrar_Click;
 
                     Button btnAtzera = new Button
@@ -267,29 +389,13 @@ namespace _2taldea
                         Height = 50,
                         Margin = new Padding(20, 0, 20, 0)
                     };
-                    btnAtzera.Click += (s, e) => { this.Close(); };
 
-                    botonesPanel.Controls.AddRange(new Control[] { btnGuardar, btnResumen, btnBorrar, btnAtzera });
+                    btnAtzera.Click += (s, ev) => { this.Close(); };
 
-                    // Añadir los paneles al panel principal
+                    flowBotones.Controls.AddRange(new Control[] { btnGuardar, btnResumen, btnBorrar, btnAtzera });
+                    botonesPanel.Controls.Add(flowBotones);
                     mainPanel.Controls.Add(platosPanel);
                     mainPanel.Controls.Add(botonesPanel);
-
-                    // **Nuevo código**
-                    // Añadir el label de mesa
-                    Label mesaLabel = new Label
-                    {
-                        Text = $"Mahaia: {mesaId}",
-                        Font = new Font("Segoe UI", 16, FontStyle.Bold),
-                        ForeColor = Color.DarkSlateGray,
-                        AutoSize = true,
-                        Location = new Point(20, botonesPanel.Bottom + 20) // Esta vez se coloca con un offset de 20 píxeles hacia abajo
-                    };
-
-                    // Añadir al control del formulario directamente
-                    this.Controls.Add(mesaLabel);
-
-                    // Añadir el mainPanel a la TabPage
                     tabPage.Controls.Add(mainPanel);
                 }
             }
@@ -299,7 +405,31 @@ namespace _2taldea
             }
         }
 
+        private void MostrarIngredientes(Platera plato)
+        {
+            try
+            {
+                using (ISession session = sessionFactory.OpenSession())
+                {
+                    var ingredientes = session.QueryOver<PlateraProduktua>()
+                                            .Where(pp => pp.PlateraId == plato.Id)
+                                            .JoinQueryOver(pp => pp.Produktua)
+                                            .List();
 
+                    string mensaje = $"{plato.Izena}:\nPlateraren osagaiak";
+                    foreach (var ingrediente in ingredientes)
+                    {
+                        mensaje += $"\n- {ingrediente.Produktua.Izena}: {ingrediente.Kantitatea} unitate";
+                    }
+
+                    MessageBox.Show(mensaje, "Plateraren osagaiak", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar ingredientes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private void CargarPedidosGuardados()
         {
@@ -308,11 +438,10 @@ namespace _2taldea
                 using (ISession session = sessionFactory.OpenSession())
                 {
                     var lastEskaera = session.QueryOver<Eskaera>()
-                                              .Where(e => e.MesaId == mesaId && e.Activo == true)
-                                              .OrderBy(e => e.EskaeraZenb).Desc
-                                              .Take(1)
-                                              .SingleOrDefault();
-
+                                          .Where(e => e.MesaId == mesaId && e.Activo == 1)
+                                          .OrderBy(e => e.EskaeraZenb).Desc
+                                          .Take(1)
+                                          .SingleOrDefault();
                     ultimoEskaeraZenb = lastEskaera?.EskaeraZenb ?? 0;
                 }
             }
@@ -322,39 +451,36 @@ namespace _2taldea
             }
         }
 
-        public static int ObtenerNuevoEskaeraZenb(ISession session)
-        {
-            var lastEskaera = session.QueryOver<Eskaera>()
-                                     .Where(e => e.Activo == true)
-                                     .OrderBy(e => e.EskaeraZenb).Desc
-                                     .Take(1)
-                                     .SingleOrDefault();
-
-            return (lastEskaera?.EskaeraZenb ?? 0) + 1;
-        }
-
         private void BtnGuardar_Click(object sender, EventArgs e)
         {
-            KomandakKudeatzailea.GuardarEskaera(sessionFactory, mesaId, resumen);
-
-            MessageBox.Show("Datuak ongi gorde dira", "Ongi!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                var resumenSimple = resumen.ToDictionary(
+                    item => item.Key,
+                    item => (item.Value.cantidad, item.Value.precio));
+                var notasPlatos = resumen.ToDictionary(
+                    item => item.Key,
+                    item => item.Value.nota);
+                KomandakKudeatzailea.GuardarEskaera(sessionFactory, mesaId, resumenSimple, notasPlatos);
+                MessageBox.Show("Datuak ongi gorde dira", "Ongi!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Errorea gordetzerakoan: {ex.Message}", "Errorea", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
 
         private void BtnBorrar_Click(object sender, EventArgs e)
         {
             KomandakKudeatzailea.BorrarPedidos(sessionFactory, mesaId);
-
             MessageBox.Show("Eskaria ezabatu da", "Ongi!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
 
         private void BtnResumen_Click(object sender, EventArgs e)
         {
             try
             {
                 string resumenTexto = KomandakKudeatzailea.CargarResumen(sessionFactory, mesaId);
-
                 if (string.IsNullOrWhiteSpace(resumenTexto))
                 {
                     MessageBox.Show("Ez dago informaziorik erakusteko.", "Laburpena", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -368,12 +494,6 @@ namespace _2taldea
             {
                 MessageBox.Show($"Errorea laburpena kargatzean: {ex.Message}", "Errorea", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-
-        private void bebidasTab_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

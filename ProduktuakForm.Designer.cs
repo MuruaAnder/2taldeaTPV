@@ -27,6 +27,7 @@
             btnAdd=new Button();
             dataGridViewProduktuak=new DataGridView();
             pictureBoxLogo=new PictureBox();
+            button1=new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProduktuak).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             SuspendLayout();
@@ -133,6 +134,20 @@
             pictureBoxLogo.TabStop=false;
             pictureBoxLogo.Click+=pictureBoxLogo_Click;
             // 
+            // button1
+            // 
+            button1.BackColor=SystemColors.ControlText;
+            button1.FlatStyle=FlatStyle.Flat;
+            button1.Font=new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            button1.ForeColor=Color.White;
+            button1.Location=new Point(1374, 200);
+            button1.Name="button1";
+            button1.Size=new Size(100, 50);
+            button1.TabIndex=11;
+            button1.Text="Platera gehitu";
+            button1.UseVisualStyleBackColor=false;
+            button1.Click+=button1_Click;
+            // 
             // ProduktuakForm
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
@@ -140,6 +155,7 @@
             BackColor=Color.BurlyWood;
             BackgroundImageLayout=ImageLayout.Stretch;
             ClientSize=new Size(1835, 584);
+            Controls.Add(button1);
             Controls.Add(pictureBoxLogo);
             Controls.Add(dataGridViewProduktuak);
             Controls.Add(btnAdd);
@@ -157,7 +173,6 @@
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
-          
         }
 
         #endregion
@@ -170,6 +185,7 @@
         private Button btnAdd;
         private DataGridView dataGridViewProduktuak;
         private PictureBox pictureBoxLogo;
+        private Button button1;
     }
 }
 

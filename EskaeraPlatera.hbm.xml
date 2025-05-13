@@ -1,0 +1,22 @@
+﻿<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="2taldea"
+                   namespace="_2taldea">
+
+	<class name="EskaeraPlatera" table="eskaera_platera">
+		<id name="Id" column="id" type="int">
+			<generator class="native"/>
+		</id>
+
+		<many-to-one name="Eskaera" class="Eskaera" column="eskaera_id" not-null="true"/>
+		<many-to-one name="Platera" class="Platera" column="platera_id" not-null="true"/>
+
+		<!-- Propiedades básicas -->
+		<property name="NotaGehigarriak" column="nota_gehigarriak" type="string" length="45" />
+		<property name="Egoera" column="egoera" type="byte" not-null="true" />
+		<property name="Done" column="done" type="byte" not-null="true" />
+		<property name="EskaeraOrdua" column="eskaeraOrdua" type="timestamp" not-null="true" />
+		<property name="AteratzeOrdua" column="ateratzeOrdua" type="timestamp" />
+
+	</class>
+
+</hibernate-mapping>

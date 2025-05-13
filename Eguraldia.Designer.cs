@@ -1,16 +1,17 @@
 ﻿namespace _2taldea
 {
-    partial class EskaeraResumenForm
+    partial class Eguraldia
     {
         private System.ComponentModel.IContainer components = null;
-        private Label labelMesa;
+
         private Label labelNombreUsuario;
         private Label labelLaburpena;
-        private FlowLayoutPanel flowLayoutPanelPedidos;
-        private Label labelPrezioa;
+        private Panel panelEstadoCielo;
+        private Panel panelTemperatura;
+        private Panel panelHumedad;
         private Button btnAtzera;
-        private Button btnEskaeraSortu;
         private PictureBox pictureBoxLogo;
+        private ComboBox cmbDias;
 
         protected override void Dispose(bool disposing)
         {
@@ -25,40 +26,27 @@
         {
             BackgroundImage = Image.FromFile("background.png");
             BackgroundImageLayout = ImageLayout.Stretch;
-            labelMesa=new Label();
             labelNombreUsuario=new Label();
             labelLaburpena=new Label();
-            flowLayoutPanelPedidos=new FlowLayoutPanel();
-            labelPrezioa=new Label();
+            panelEstadoCielo=new Panel();
+            panelTemperatura=new Panel();
+            panelHumedad=new Panel();
             btnAtzera=new Button();
-            btnEskaeraSortu=new Button();
             pictureBoxLogo=new PictureBox();
+            cmbDias=new ComboBox();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             SuspendLayout();
-            // 
-            // labelMesa
-            // 
-            labelMesa.AutoSize=true;
-            labelMesa.Font=new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            labelMesa.Location=new Point(1685, 50);
-            labelMesa.Name="labelMesa";
-            labelMesa.Size=new Size(35, 32);
-            labelMesa.TabIndex=0;
-            labelMesa.Text="1,";
-            labelMesa.BackColor=Color.Transparent;
-
             // 
             // labelNombreUsuario
             // 
             labelNombreUsuario.AutoSize=true;
+            labelNombreUsuario.BackColor=Color.Transparent;
             labelNombreUsuario.Font=new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
             labelNombreUsuario.Location=new Point(1716, 50);
             labelNombreUsuario.Name="labelNombreUsuario";
             labelNombreUsuario.Size=new Size(75, 32);
             labelNombreUsuario.TabIndex=1;
             labelNombreUsuario.Text="Izena";
-            labelNombreUsuario.BackColor=Color.Transparent;
-
             // 
             // labelLaburpena
             // 
@@ -68,32 +56,39 @@
             labelLaburpena.ForeColor=Color.LightSlateGray;
             labelLaburpena.Location=new Point(894, 50);
             labelLaburpena.Name="labelLaburpena";
-            labelLaburpena.Size=new Size(178, 45);
+            labelLaburpena.Size=new Size(161, 45);
             labelLaburpena.TabIndex=2;
-            labelLaburpena.Text="Laburpena";
+            labelLaburpena.Text="Eguraldia";
             // 
-            // flowLayoutPanelPedidos
+            // panelEstadoCielo
             // 
-            flowLayoutPanelPedidos.Anchor=AnchorStyles.Top|AnchorStyles.Bottom|AnchorStyles.Left|AnchorStyles.Right;
-            flowLayoutPanelPedidos.AutoScroll=true;
-            flowLayoutPanelPedidos.BackColor=Color.SaddleBrown;
-            flowLayoutPanelPedidos.FlowDirection=FlowDirection.TopDown;
-            flowLayoutPanelPedidos.Location=new Point(321, 250);
-            flowLayoutPanelPedidos.Name="flowLayoutPanelPedidos";
-            flowLayoutPanelPedidos.Size=new Size(1028, 562);
-            flowLayoutPanelPedidos.TabIndex=3;
-            flowLayoutPanelPedidos.WrapContents=false;
+            panelEstadoCielo.BackColor=Color.SaddleBrown;
+            panelEstadoCielo.BorderStyle=BorderStyle.FixedSingle;
+            panelEstadoCielo.ForeColor=Color.SaddleBrown;
+            panelEstadoCielo.Location=new Point(272, 450);
+            panelEstadoCielo.Name="panelEstadoCielo";
+            panelEstadoCielo.Size=new Size(300, 200);
+            panelEstadoCielo.TabIndex=4;
             // 
-            // labelPrezioa
+            // panelTemperatura
             // 
-            labelPrezioa.AutoSize=true;
-            labelPrezioa.BackColor=Color.Transparent;
-            labelPrezioa.Font=new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point);
-            labelPrezioa.Location=new Point(894, 900);
-            labelPrezioa.Name="labelPrezioa";
-            labelPrezioa.Size=new Size(185, 45);
-            labelPrezioa.TabIndex=4;
-            labelPrezioa.Text="Prezioa: 0€";
+            panelTemperatura.BackColor=Color.SaddleBrown;
+            panelTemperatura.BorderStyle=BorderStyle.FixedSingle;
+            panelTemperatura.ForeColor=Color.SaddleBrown;
+            panelTemperatura.Location=new Point(622, 450);
+            panelTemperatura.Name="panelTemperatura";
+            panelTemperatura.Size=new Size(300, 200);
+            panelTemperatura.TabIndex=5;
+            // 
+            // panelHumedad
+            // 
+            panelHumedad.BackColor=Color.SaddleBrown;
+            panelHumedad.BorderStyle=BorderStyle.FixedSingle;
+            panelHumedad.ForeColor=Color.SaddleBrown;
+            panelHumedad.Location=new Point(972, 450);
+            panelHumedad.Name="panelHumedad";
+            panelHumedad.Size=new Size(300, 200);
+            panelHumedad.TabIndex=6;
             // 
             // btnAtzera
             // 
@@ -109,20 +104,6 @@
             btnAtzera.UseVisualStyleBackColor=false;
             btnAtzera.Click+=BtnAtzera_Click;
             // 
-            // btnEskaeraSortu
-            // 
-            btnEskaeraSortu.BackColor=Color.Green;
-            btnEskaeraSortu.FlatStyle=FlatStyle.Flat;
-            btnEskaeraSortu.Font=new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            btnEskaeraSortu.ForeColor=Color.White;
-            btnEskaeraSortu.Location=new Point(150, 900);
-            btnEskaeraSortu.Name="btnEskaeraSortu";
-            btnEskaeraSortu.Size=new Size(150, 50);
-            btnEskaeraSortu.TabIndex=6;
-            btnEskaeraSortu.Text="Ordaindu";
-            btnEskaeraSortu.UseVisualStyleBackColor=false;
-            btnEskaeraSortu.Click+=btnEskaeraSortu_Click;
-            // 
             // pictureBoxLogo
             // 
             pictureBoxLogo.BackColor=Color.Transparent;
@@ -134,29 +115,40 @@
             pictureBoxLogo.TabIndex=2;
             pictureBoxLogo.TabStop=false;
             // 
-            // EskaeraResumenForm
+            // cmbDias
+            // 
+            cmbDias.DropDownStyle=ComboBoxStyle.DropDownList;
+            cmbDias.Font=new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            cmbDias.FormattingEnabled=true;
+            cmbDias.Items.AddRange(new object[] { "Gaur", "Bihar", "Etzi" });
+            cmbDias.Location=new Point(472, 200);
+            cmbDias.Name="cmbDias";
+            cmbDias.Size=new Size(200, 29);
+            cmbDias.TabIndex=8;
+            cmbDias.SelectedIndexChanged+=CmbDias_SelectedIndexChanged;
+            // 
+            // Eguraldia
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
             AutoScaleMode=AutoScaleMode.Font;
-            BackColor=Color.BurlyWood;
+            BackColor=Color.White;
             BackgroundImageLayout=ImageLayout.Stretch;
             ClientSize=new Size(1644, 1062);
-            Controls.Add(labelMesa);
-            Controls.Add(labelNombreUsuario);
-            Controls.Add(labelLaburpena);
-            Controls.Add(flowLayoutPanelPedidos);
-            Controls.Add(labelPrezioa);
-            Controls.Add(btnAtzera);
-            Controls.Add(btnEskaeraSortu);
+            Controls.Add(cmbDias);
             Controls.Add(pictureBoxLogo);
+            Controls.Add(btnAtzera);
+            Controls.Add(panelHumedad);
+            Controls.Add(panelTemperatura);
+            Controls.Add(panelEstadoCielo);
+            Controls.Add(labelLaburpena);
+            Controls.Add(labelNombreUsuario);
             FormBorderStyle=FormBorderStyle.None;
-            Name="EskaeraResumenForm";
+            Name="Eguraldia";
+            Text="Eguraldia";
             WindowState=FormWindowState.Maximized;
-            Load+=EskaeraResumenForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
-      
         }
     }
 }

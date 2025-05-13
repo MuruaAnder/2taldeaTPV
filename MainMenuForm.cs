@@ -57,8 +57,36 @@ namespace _2taldea
 
         private void buttonTxat_Click(object sender, EventArgs e)
         {
-            TxatForm txatForm = new TxatForm(nombreUsuario);
-            txatForm.Show();
+            try
+            {
+                using (ISession session = sessionFactory.OpenSession())
+                {
+                    // Busca al usuario por su nombre
+                    var langilea = session.QueryOver<Langilea>()
+                        .Where(x => x.Izena == nombreUsuario)
+                        .SingleOrDefault();
+
+                    // Verifica si el usuario existe y tiene permiso de chat
+                    if (langilea != null && langilea.TxatBaimena == 1)
+                    {
+                        TxatForm txatForm = new TxatForm(nombreUsuario);
+                        txatForm.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ez duzu txatean sartzeko baimenik.", "Baimenik gabe", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Errorea egiaztatzean: {ex.Message}", "Errorea", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btnEguraldia_Click(object sender, EventArgs e)
+        {
+            Eguraldia eguraldiaForm = new Eguraldia(nombreUsuario, sessionFactory); // Pasar los parámetros necesarios
+            eguraldiaForm.Show(); // Mostrar el formulario
         }
     }
 }

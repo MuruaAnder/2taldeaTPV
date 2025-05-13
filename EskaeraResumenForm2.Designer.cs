@@ -45,6 +45,8 @@
             labelMesa.Size=new Size(35, 32);
             labelMesa.TabIndex=0;
             labelMesa.Text="1,";
+            labelMesa.BackColor=Color.Transparent;
+
             // 
             // labelNombreUsuario
             // 
@@ -55,6 +57,8 @@
             labelNombreUsuario.Size=new Size(75, 32);
             labelNombreUsuario.TabIndex=1;
             labelNombreUsuario.Text="Izena";
+            labelNombreUsuario.BackColor=Color.Transparent;
+
             // 
             // labelLaburpena
             // 

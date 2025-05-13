@@ -13,7 +13,7 @@ namespace _2taldea
             {
                 using (ISession session = sessionFactory.OpenSession())
                 {
-                    var pedidosActivos = session.CreateQuery("FROM Eskaera WHERE MesaId = :mesaId AND Activo = true")
+                    var pedidosActivos = session.CreateQuery("FROM Eskaera WHERE MesaId = :mesaId AND Activo = 1")
                                                 .SetParameter("mesaId", mesaId)
                                                 .List<Eskaera>();
 

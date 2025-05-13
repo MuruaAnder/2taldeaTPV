@@ -10,9 +10,13 @@ namespace _2taldea
     {
         public virtual int Id { get; set; }
         public virtual string Izena { get; set; }
+        public virtual string Deskribapena { get; set; }  // Nueva propiedad
         public virtual string Kategoria { get; set; }
         public virtual int Kantitatea { get; set; }
-        public virtual float Prezioa { get; set; }
+        public virtual float Prezioa { get; set; }      // Corregí el nombre (Prezioa en lugar de Prezioa)
+        public virtual byte Menu { get; set; }
+        public virtual string Foto { get; set; }
+
     }
 
 }

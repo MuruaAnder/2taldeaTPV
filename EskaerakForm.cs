@@ -50,13 +50,16 @@ namespace _2taldea
                 {
                     Mahaia mesa = mesas[i];
 
+                    // Verificar si la mesa tiene pedidos activos
+                    bool tienePedidoActivo = KomandakKudeatzailea.TienePedidoActivo(mesa.Id, sessionFactory);
+
                     Button btnMesa = new Button
                     {
                         Text = $"{mesa.MahaiZenbakia} .Mahaia\n{mesa.Kopurua} pertsonentzat",
                         Width = buttonWidth,
                         Height = buttonHeight,
                         Font = new Font("Segoe UI", 14F, FontStyle.Bold),
-                        BackColor = Color.SaddleBrown,
+                        BackColor = tienePedidoActivo ? Color.FromArgb(100, 80, 50) : Color.SaddleBrown, // Marrón grisáceo si hay pedido activo
                         ForeColor = Color.White,
                         FlatStyle = FlatStyle.Flat,
                         Tag = mesa.Id
@@ -79,6 +82,17 @@ namespace _2taldea
                 MessageBox.Show($"Errorea mahaiak sortzean: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        // Método para verificar si una mesa tiene un pedido activo
+        private bool TienePedidoActivo(int mesaId, ISessionFactory sessionFactory)
+        {
+            using (var session = sessionFactory.OpenSession())
+            {
+                return session.Query<Eskaera>()
+                             .Any(e => e.MesaId == mesaId && e.Activo == 1); // Comparación explícita con 1
+            }
+        }
+
 
         private void BtnMesa_Click(object sender, EventArgs e)
         {

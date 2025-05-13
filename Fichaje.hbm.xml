@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="_2taldea"
+                   namespace="_2taldea">
+
+	<class name="Fichaje" table="fichaje">
+		<id name="Id" column="id">
+			<generator class="identity" />
+		</id>
+
+		<many-to-one name="Langilea"
+					 column="langilea_id"
+					 class="Langilea"
+					 not-null="true" />
+
+		<property name="HasieraOrdua" column="hasiera_ordua" type="DateTime" not-null="true" />
+		<property name="BukaraOrdua" column="bukaera_ordua" type="DateTime" not-null="true" />
+	</class>
+</hibernate-mapping>

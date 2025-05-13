@@ -177,6 +177,12 @@ namespace _2taldea
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            PlateraAddForm plateraForm = new PlateraAddForm(sessionFactory);
+            plateraForm.Show();
+        }
     }
 }
 

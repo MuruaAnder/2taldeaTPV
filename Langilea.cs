@@ -8,9 +8,10 @@ namespace _2taldea
 {
     internal class Langilea
     {
-        public virtual int Id { get; set; } 
+        public virtual int Id { get; set; }
         public virtual string Izena { get; set; }
         public virtual string Pasahitza { get; set; }
         public virtual string Postua { get; set; }
+        public virtual byte TxatBaimena { get; set; } 
     }
 }

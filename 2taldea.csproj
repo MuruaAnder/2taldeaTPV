@@ -11,14 +11,23 @@
 
   <ItemGroup>
     <None Remove="Eskaera.hbm.xml" />
+    <None Remove="EskaeraPlatera.hbm.xml" />
+    <None Remove="Images\labeko_oilaskoa.jpg" />
     <None Remove="login.hbm.xml" />
     <None Remove="mahia.hbm.xml" />
     <None Remove="platera.hbm.xml" />
+    <None Remove="PlateraProduktua.hbm.xml" />
     <None Remove="produktua.hbm.xml" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Eskaera.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlateraProduktua.hbm.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EskaeraPlatera.hbm.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="login.hbm.xml">
@@ -36,6 +45,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.69.0" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.69.0.3703" />
     <PackageReference Include="itext7" Version="9.0.0" />
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.0.0" />
     <PackageReference Include="itext7.commons" Version="9.0.0" />

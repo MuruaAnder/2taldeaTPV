@@ -12,10 +12,7 @@ namespace _2taldea
         {
             InitializeComponent();
 
-            // Asegúrate de que nombreUsuario no sea null
             this.nombreUsuario = nombreUsuario ?? throw new ArgumentNullException(nameof(nombreUsuario));
-
-            // Asegúrate de que sessionFactory no sea null
             this.sessionFactory = sessionFactory ?? throw new ArgumentNullException(nameof(sessionFactory));
         }
 
@@ -25,31 +22,29 @@ namespace _2taldea
             CrearMesas();
         }
 
-
         private void CrearMesas()
         {
             try
             {
-                // Llamar al controlador para obtener las mesas
                 var mesas = KomandakKudeatzailea.ObtenerMesas(sessionFactory);
 
-                int filas = 2; // Número de filas (2 filas)
+                int filas = 2;
                 int buttonWidth = 175;
                 int buttonHeight = 175;
-                int buttonSpacingHorizontal = 40; // Espaciado horizontal aumentado
-                int buttonSpacingVertical = 50; // Espaciado vertical aumentado
+                int buttonSpacingHorizontal = 40;
+                int buttonSpacingVertical = 50;
 
-                // Calcula el número de mesas por fila
                 int mesasPorFila = (int)Math.Ceiling((double)mesas.Count / filas);
-
-                // Calcula el ancho total de los botones y espacios para centrar
                 int totalWidth = mesasPorFila * buttonWidth + (mesasPorFila - 1) * buttonSpacingHorizontal;
-                int startX = (this.ClientSize.Width - totalWidth) / 2; // Centrado horizontal
-                int startY = 300; // Margen superior fijo
+                int startX = (this.ClientSize.Width - totalWidth) / 2;
+                int startY = 300;
 
                 for (int i = 0; i < mesas.Count; i++)
                 {
                     Mahaia mesa = mesas[i];
+
+                    // Verificar si la mesa tiene pedidos activos
+                    bool tienePedidoActivo = KomandakKudeatzailea.TienePedidoActivo(mesa.Id, sessionFactory);
 
                     Button btnMesa = new Button
                     {
@@ -57,7 +52,7 @@ namespace _2taldea
                         Width = buttonWidth,
                         Height = buttonHeight,
                         Font = new Font("Segoe UI", 14F, FontStyle.Bold),
-                        BackColor = Color.SaddleBrown,
+                        BackColor = tienePedidoActivo ? Color.FromArgb(100, 80, 50) : Color.SaddleBrown, // Marrón grisáceo si hay pedido activo
                         ForeColor = Color.White,
                         FlatStyle = FlatStyle.Flat,
                         Tag = mesa.Id
@@ -68,7 +63,7 @@ namespace _2taldea
 
                     btnMesa.Location = new Point(
                         startX + column * (buttonWidth + buttonSpacingHorizontal),
-                        startY + row * (buttonHeight + buttonSpacingVertical) + (row * 20) // Ajuste adicional para la segunda fila
+                        startY + row * (buttonHeight + buttonSpacingVertical) + (row * 20)
                     );
 
                     btnMesa.Click += BtnMesa_Click;
@@ -80,7 +75,6 @@ namespace _2taldea
                 MessageBox.Show($"Errorea mahaiak sortzean: {ex.Message}", "Arazoak", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void BtnMesa_Click(object sender, EventArgs e)
         {

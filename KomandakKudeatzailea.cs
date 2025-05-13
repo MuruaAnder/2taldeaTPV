@@ -14,7 +14,6 @@ namespace _2taldea
             this.sessionFactory = sessionFactory;
         }
 
-        // Método para obtener todas las mesas
         public static List<Mahaia> ObtenerMesas(ISessionFactory sessionFactory)
         {
             try
@@ -31,7 +30,6 @@ namespace _2taldea
             }
         }
 
-        // Método para cargar platos por categoría
         public List<Platera> CargarPlatos(string categoria)
         {
             using (ISession session = sessionFactory.OpenSession())
@@ -43,104 +41,136 @@ namespace _2taldea
             }
         }
 
-        // Método para guardar un pedido y activarlo
-        public static void GuardarEskaera(ISessionFactory sessionFactory, int mesaId, Dictionary<string, (int cantidad, float precio)> resumen)
+        internal static bool TienePedidoActivo(int mesaId, ISessionFactory sessionFactory)
+        {
+            try
+            {
+                using (var session = sessionFactory.OpenSession())
+                {
+                    return session.QueryOver<Eskaera>()
+                                  .Where(e => e.MesaId == mesaId && e.Activo == 1)
+                                  .RowCount() > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al verificar pedidos activos en la mesa {mesaId}: {ex.Message}");
+                return false;
+            }
+        }
+
+        public static void GuardarEskaera(ISessionFactory sessionFactory, int mesaId,
+                                        Dictionary<string, (int cantidad, float precio)> resumen,
+                                        Dictionary<string, string> notasPlatos)
         {
             using (var session = sessionFactory.OpenSession())
             using (var transaction = session.BeginTransaction())
             {
                 try
                 {
-                    // Comprobar si la mesa existe
                     var mesa = session.Get<Mahaia>(mesaId);
                     if (mesa == null)
                     {
                         throw new Exception($"No se encontró la mesa con ID {mesaId}.");
                     }
 
-                    int nuevoEskaeraZenb = ObtenerNuevoEskaeraZenb(session);
+                    var eskaera = session.QueryOver<Eskaera>()
+                                       .Where(e => e.MesaId == mesaId && e.Activo == 1)
+                                       .SingleOrDefault();
+
+                    if (eskaera == null)
+                    {
+                        int nuevoEskaeraZenb = ObtenerNuevoEskaeraZenb(session);
+                        eskaera = new Eskaera
+                        {
+                            EskaeraZenb = nuevoEskaeraZenb,
+                            MesaId = mesaId,
+                            Activo = 1,
+                            Izena = "Pedido en curso",
+                            Prezioa = 0
+                        };
+                        session.Save(eskaera);
+                    }
 
                     foreach (var item in resumen)
                     {
-                        var nombrePlato = item.Key;
-                        var cantidad = item.Value.cantidad;
-                        var precio = item.Value.precio;
+                        if (item.Value.cantidad <= 0) continue;
 
-                        // Buscar el plato en la tabla Platera
                         var plato = session.QueryOver<Platera>()
-                                           .Where(p => p.Izena == nombrePlato)
-                                           .SingleOrDefault();
+                                         .Where(p => p.Izena == item.Key)
+                                         .SingleOrDefault();
 
                         if (plato == null)
                         {
-                            throw new Exception($"Plato '{nombrePlato}' no encontrado en la base de datos.");
+                            throw new Exception($"Plato '{item.Key}' no encontrado.");
                         }
 
-                        // Buscar todos los productos en Produktua con el mismo nombre
-                        var productos = session.QueryOver<Produktua>()
-                                               .Where(p => p.Izena == plato.Izena)
-                                               .List();
+                        // Verificar stock
+                        var ingredientes = session.QueryOver<PlateraProduktua>()
+                                                .Where(pp => pp.PlateraId == plato.Id)
+                                                .JoinQueryOver(pp => pp.Produktua)
+                                                .List();
 
-                        if (productos == null || productos.Count == 0)
+                        foreach (var ingrediente in ingredientes)
                         {
-                            throw new Exception($"No se encontró un producto asociado al plato '{nombrePlato}' en la tabla Produktua.");
-                        }
+                            var producto = session.Get<Produktua>(ingrediente.ProduktuaId);
+                            int cantidadNecesaria = ingrediente.Kantitatea * item.Value.cantidad;
 
-                        // Sumar el stock total disponible de todos los productos con ese nombre
-                        int stockTotalDisponible = productos.Sum(p => p.Stock);
+                            if (producto.Stock < cantidadNecesaria)
+                            {
+                                throw new Exception($"Ez dago nahiko {producto.Izena}  {plato.Izena}platerarako");
+                            }
 
-                        // Verificar si hay stock suficiente
-                        if (stockTotalDisponible < cantidad)
-                        {
-                            throw new Exception($"Stock insuficiente para '{nombrePlato}'. Disponible: {stockTotalDisponible}, solicitado: {cantidad}");
-                        }
-
-                        // Reducir el stock proporcionalmente en cada producto
-                        int cantidadRestante = cantidad;
-                        
-                        foreach (var producto in productos)
-                        {
-                            if (cantidadRestante == 0)
-                                break;
-
-                            int reducirEnEsteProducto = Math.Min(producto.Stock, cantidadRestante);
-                            producto.Stock -= reducirEnEsteProducto;
-                            cantidadRestante -= reducirEnEsteProducto;
+                            producto.Stock -= cantidadNecesaria;
                             session.Update(producto);
                         }
 
-                        // Guardar los pedidos en la base de datos
-                        for (int i = 0; i < cantidad; i++)
+                        // Crear EskaeraPlatera (con clave simple)
+                        for (int i = 0; i < item.Value.cantidad; i++)
                         {
-                            Eskaera nuevaEskaera = new Eskaera
+                            var eskaeraPlatera = new EskaeraPlatera
                             {
-                                EskaeraZenb = nuevoEskaeraZenb,
-                                Izena = nombrePlato,  // Se usa el nombre del plato
-                                Prezioa = precio,
-                                MesaId = mesaId,
-                                Activo = true
+                                Eskaera = eskaera, // Asignación directa del objeto
+                                Platera = plato,
+                                NotaGehigarriak = notasPlatos.ContainsKey(item.Key) ? notasPlatos[item.Key] : null,
+                                Egoera = 0,
+                                Done = 0,
+                                EskaeraOrdua = DateTime.Now
                             };
-
-                            session.Save(nuevaEskaera);
+                            session.Save(eskaeraPlatera);
                         }
+
+                        eskaera.Prezioa += item.Value.cantidad * plato.Prezioa;
                     }
 
+                    // Actualizar nombre del pedido
+                    var platosPedido = session.QueryOver<EskaeraPlatera>()
+                                           .Where(ep => ep.Eskaera.Id == eskaera.Id) // Acceso a través de la relación
+                                           .JoinQueryOver(ep => ep.Platera)
+                                           .List()
+                                           .Select(ep => ep.Platera.Izena)
+                                           .Distinct()
+                                           .ToList();
+
+                    eskaera.Izena = platosPedido.Count switch
+                    {
+                        0 => "Pedido vacío",
+                        1 => platosPedido.First(),
+                        _ => $"{platosPedido.First()} y otros {platosPedido.Count - 1}"
+                    };
+
+                    session.Update(eskaera);
                     transaction.Commit();
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback(); // Revertir los cambios en caso de error
-                    Console.WriteLine($"Error al guardar el pedido y actualizar el stock: {ex.Message}");
+                    transaction.Rollback();
+                    Console.WriteLine($"Error al guardar el pedido: {ex.Message}");
                     throw;
                 }
             }
         }
 
-
-
-
-
-        // Método para desactivar los pedidos de una mesa
         public static void BorrarPedidos(ISessionFactory sessionFactory, int mesaId)
         {
             try
@@ -148,26 +178,93 @@ namespace _2taldea
                 using (ISession session = sessionFactory.OpenSession())
                 using (ITransaction transaction = session.BeginTransaction())
                 {
-                    var pedidosParaActualizar = session.QueryOver<Eskaera>()
-                                                        .Where(e => e.MesaId == mesaId && e.Activo == true)
-                                                        .List();
+                    var pedidos = session.QueryOver<Eskaera>()
+                                        .Where(e => e.MesaId == mesaId && e.Activo == 1)
+                                        .List();
 
-                    foreach (var pedido in pedidosParaActualizar)
+                    foreach (var pedido in pedidos)
                     {
-                        pedido.Activo = false;
+                        pedido.Activo = 0;
                         session.Update(pedido);
                     }
-
                     transaction.Commit();
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error al desactivar los pedidos: {ex.Message}");
+                throw new Exception($"Error al desactivar pedidos: {ex.Message}");
             }
         }
 
-        // Método para obtener el siguiente número de pedido
+        public static string CargarResumen(ISessionFactory sessionFactory, int mesaId)
+        {
+            try
+            {
+                using (ISession session = sessionFactory.OpenSession())
+                {
+                    var pedidosActivos = session.QueryOver<Eskaera>()
+                                                .Where(e => e.MesaId == mesaId && e.Activo == 1)
+                                                .List();
+
+                    if (pedidosActivos.Count == 0)
+                    {
+                        return "Ez dago komandarik mahai honetarako.";
+                    }
+
+                    var eskaeraIds = pedidosActivos.Select(e => e.Id).ToList();
+
+                    var detallesPedidos = session.QueryOver<EskaeraPlatera>()
+                        .WhereRestrictionOn(ep => ep.Eskaera.Id).IsIn(eskaeraIds) // Acceso a través de la relación
+                        .List();
+
+                    var resumen = new Dictionary<string, (int cantidad, float precio, string nota)>();
+
+                    foreach (var detalle in detallesPedidos)
+                    {
+                        var plato = detalle.Platera; // Acceso directo al objeto relacionado
+                        string nombrePlato = plato.Izena;
+
+                        if (resumen.ContainsKey(nombrePlato))
+                        {
+                            resumen[nombrePlato] = (
+                                resumen[nombrePlato].cantidad + 1,
+                                plato.Prezioa,
+                                detalle.NotaGehigarriak ?? resumen[nombrePlato].nota
+                            );
+                        }
+                        else
+                        {
+                            resumen[nombrePlato] = (1, plato.Prezioa, detalle.NotaGehigarriak ?? "");
+                        }
+                    }
+
+                    string resumenTexto = "Komandaren laburpena:\n\n";
+                    float total = 0;
+
+                    foreach (var item in resumen)
+                    {
+                        float subtotal = item.Value.cantidad * item.Value.precio;
+                        resumenTexto += $"- {item.Key}: {item.Value.cantidad} x {item.Value.precio:C2} = {subtotal:C2}";
+
+                        if (!string.IsNullOrEmpty(item.Value.nota))
+                        {
+                            resumenTexto += $" (Oharra: {item.Value.nota})";
+                        }
+
+                        resumenTexto += "\n";
+                        total += subtotal;
+                    }
+
+                    resumenTexto += $"\nTotala: {total:C2}";
+                    return resumenTexto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Errorea laburpena kargatzean: {ex.Message}");
+            }
+        }
+
         private static int ObtenerNuevoEskaeraZenb(ISession session)
         {
             var lastEskaera = session.QueryOver<Eskaera>()
@@ -176,59 +273,6 @@ namespace _2taldea
                                      .SingleOrDefault();
 
             return (lastEskaera?.EskaeraZenb ?? 0) + 1;
-        }
-
-        // Método para cargar el resumen de un pedido activo
-        public static string CargarResumen(ISessionFactory sessionFactory, int mesaId)
-        {
-            try
-            {
-                using (ISession session = sessionFactory.OpenSession())
-                {
-                    var pedidosActivos = session.QueryOver<Eskaera>()
-                                                .Where(e => e.MesaId == mesaId && e.Activo == true)
-                                                .List();
-
-                    if (pedidosActivos == null || pedidosActivos.Count == 0)
-                    {
-                        return "Ez dago komandarik mahai honetarako."; // No hay pedido activo
-                    }
-
-                    // Crear diccionario con productos y cantidades
-                    Dictionary<string, (int cantidad, float precio)> resumen = new();
-
-                    foreach (var pedido in pedidosActivos)
-                    {
-                        if (resumen.ContainsKey(pedido.Izena))
-                        {
-                            resumen[pedido.Izena] = (resumen[pedido.Izena].cantidad + 1, pedido.Prezioa);
-                        }
-                        else
-                        {
-                            resumen[pedido.Izena] = (1, pedido.Prezioa);
-                        }
-                    }
-
-                    // Crear resumen
-                    string resumenTexto = "Komandaren laburpena:\n\n";
-                    float total = 0;
-
-                    foreach (var item in resumen)
-                    {
-                        float subtotal = item.Value.cantidad * item.Value.precio;
-                        resumenTexto += $"- {item.Key}: {item.Value.cantidad} x {item.Value.precio:C2} = {subtotal:C2}\n";
-                        total += subtotal;
-                    }
-
-                    resumenTexto += $"\nTotala: {total:C2}";
-
-                    return resumenTexto;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Errorea laburpena kargatzean: {ex.Message}", ex);
-            }
         }
     }
 }

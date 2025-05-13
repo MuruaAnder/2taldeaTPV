@@ -45,7 +45,7 @@ namespace _2taldea
             // 
             // btnLogin
             // 
-            btnLogin.BackColor=Color.Black;
+            btnLogin.BackColor=Color.SaddleBrown;
             btnLogin.FlatStyle=FlatStyle.Popup;
             btnLogin.ForeColor=SystemColors.ButtonHighlight;
             btnLogin.Location=new Point(284, 420);
@@ -58,6 +58,7 @@ namespace _2taldea
             // 
             // pictureBoxLogo
             // 
+            pictureBoxLogo.BackColor=Color.Transparent;
             pictureBoxLogo.Image=Properties.Resources.thebulls_logo;
             pictureBoxLogo.Location=new Point(284, 50);
             pictureBoxLogo.Name="pictureBoxLogo";
@@ -65,8 +66,6 @@ namespace _2taldea
             pictureBoxLogo.SizeMode=PictureBoxSizeMode.Zoom;
             pictureBoxLogo.TabIndex=0;
             pictureBoxLogo.TabStop=false;
-            pictureBoxLogo.BackColor = Color.Transparent;
-
             // 
             // lblName
             // 
@@ -110,12 +109,6 @@ namespace _2taldea
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
-            lblName.BackColor = Color.Transparent;
-            lblPassword.BackColor = Color.Transparent;
-       
-
-
-
         }
 
         private void Form1_Resize(object sender, EventArgs e)

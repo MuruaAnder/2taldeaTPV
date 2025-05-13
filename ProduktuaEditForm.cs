@@ -37,7 +37,7 @@ namespace _2taldea
 
                 if (result == "true")
                 {
-                    MessageBox.Show("Produktua ongi editatuta", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Produktua ongi editatuta", "Informazioa", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     DialogResult = DialogResult.OK;
                     Close();
                 }
@@ -77,7 +77,7 @@ namespace _2taldea
 
                     if (result == "true")
                     {
-                        MessageBox.Show("Produktuak arrakastaz ezabatu da.", "Informazioa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Produktua ongi ezabatu da.", "Informazioa", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         DialogResult = DialogResult.OK;
                     }
                     else

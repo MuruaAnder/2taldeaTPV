@@ -3,15 +3,17 @@
                    assembly="2taldea"
                    namespace="_2taldea">
 
-	<class name="Platera" table="platera">
+	<class name="Platera" table="platera" schema="3taldea">
 		<id name="Id" column="id" type="int">
-			<generator class="identity" />
+			<generator class="native"/>
 		</id>
-		<property name="Izena" column="izena" type="string" />
-		<property name="Kategoria" column="kategoria" type="string" />
-		<property name="Kantitatea" column="kantitatea" type="int" />
-		<property name="Prezioa" column="prezioa" type="float" />
+		<property name="Izena" column="izena" type="string" not-null="true"/>
+		<property name="Deskribapena" column="deskribapena" type="string" not-null="true"/>
+		<property name="Kategoria" column="kategoria" type="string" not-null="true"/>
+		<property name="Kantitatea" column="kantitatea" type="int" not-null="true"/>
+		<property name="Prezioa" column="prezioa" type="float" not-null="true"/>
+		<property name="Menu" column="menu" type="byte" not-null="true"/>
+		<property name="Foto" column="Foto" type="string" />
 	</class>
-
 
 </hibernate-mapping>

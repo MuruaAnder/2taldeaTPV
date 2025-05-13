@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="2taldea"
+                   namespace="_2taldea">
+
+	<class name="PlateraProduktua" table="platera_produktua" schema="3taldea">
+		<!-- SOLO 'id' es la PK (es AUTO_INCREMENT) -->
+		<id name="Id" column="id" type="int">
+			<generator class="native"/>
+		</id>
+
+		<!-- Claves foráneas como propiedades normales -->
+		<property name="PlateraId" column="platera_id" type="int" not-null="true"/>
+		<property name="ProduktuaId" column="produktua_id" type="int" not-null="true"/>
+
+		<property name="Kantitatea" column="kantitatea" type="int" not-null="true"/>
+
+		<!-- Relaciones many-to-one correctamente configuradas -->
+		<many-to-one name="Platera" class="Platera" column="platera_id" not-null="true" insert="false" update="false"/>
+		<many-to-one name="Produktua" class="Produktua" column="produktua_id" not-null="true" insert="false" update="false"/>
+	</class>
+
+</hibernate-mapping>

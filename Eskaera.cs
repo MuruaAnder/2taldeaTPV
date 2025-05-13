@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace _2taldea
+﻿namespace _2taldea
 {
     public class Eskaera
     {
-        public virtual int Id { get; set; } // ID del pedido
-        public virtual int EskaeraZenb { get; set; } // Número del pedido
-        public virtual string Izena { get; set; } // Nombre del pedido
-        public virtual float Prezioa { get; set; } // Precio
-        public virtual int MesaId { get; set; } // ID de la mesa asociada
-        public virtual bool Activo { get; set; } // Indica si el pedido está activo o eliminado
+        public virtual int Id { get; set; }
+        public virtual int EskaeraZenb { get; set; }  
+        public virtual string Izena { get; set; }
+        public virtual float Prezioa { get; set; }
+        public virtual int MesaId { get; set; }
+        public virtual byte Activo { get; set; }
     }
 }

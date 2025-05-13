@@ -31,6 +31,7 @@ namespace _2taldea
             labelMenua=new Label();
             pictureBoxLogo=new PictureBox();
             buttonTxat=new Button();
+            btnEguraldia = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBoxLogo).BeginInit();
             SuspendLayout();
             // 
@@ -140,6 +141,20 @@ namespace _2taldea
             buttonTxat.UseVisualStyleBackColor=false;
             buttonTxat.Click+=buttonTxat_Click;
             // 
+            // btnEguraldia
+            // 
+            btnEguraldia.BackColor = Color.SaddleBrown;
+            btnEguraldia.FlatStyle = FlatStyle.Flat;
+            btnEguraldia.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEguraldia.ForeColor = Color.White;
+            btnEguraldia.Location = new Point(100, 900); // Ubicación en la parte inferior izquierda
+            btnEguraldia.Name = "btnEguraldia";
+            btnEguraldia.Size = new Size(175, 60); // Tamaño ajustado para mejor visualización
+            btnEguraldia.TabIndex = 8; // Índice único
+            btnEguraldia.Text = "Eguraldia";
+            btnEguraldia.UseVisualStyleBackColor = false;
+            btnEguraldia.Click += btnEguraldia_Click; // Asociar el evento Click
+            // 
             // MainMenuForm
             // 
             AutoScaleDimensions=new SizeF(7F, 15F);
@@ -155,6 +170,7 @@ namespace _2taldea
             Controls.Add(btnEskaerak);
             Controls.Add(btnKomandak);
             Controls.Add(btnProduktuak);
+            Controls.Add(btnEguraldia);
             FormBorderStyle=FormBorderStyle.None;
             Name="MainMenuForm";
             Text="Main Menu";
@@ -176,5 +192,6 @@ namespace _2taldea
         private Label labelMenua;
         private PictureBox pictureBoxLogo;
         private Button buttonTxat;
+        private Button btnEguraldia;
     }
 }
